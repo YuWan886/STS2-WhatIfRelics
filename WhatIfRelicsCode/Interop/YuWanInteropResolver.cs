@@ -12,7 +12,7 @@ internal static class YuWanInteropResolver
             return null;
         }
 
-        return ModelDb.GetById<CardModel>(new ModelId("CARD", entry));
+        return ModelDb.GetByIdOrNull<CardModel>(new ModelId("CARD", entry));
     }
 
     public static RelicModel? ResolveRelic(string? entry)
@@ -22,7 +22,7 @@ internal static class YuWanInteropResolver
             return null;
         }
 
-        return ModelDb.GetById<RelicModel>(new ModelId("RELIC", entry));
+        return ModelDb.GetByIdOrNull<RelicModel>(new ModelId("RELIC", entry));
     }
 
     public static RelicModel[] ResolveRelics(IEnumerable<string> entries)
@@ -34,11 +34,31 @@ internal static class YuWanInteropResolver
             .ToArray();
     }
 
+    public static string? ResolveCardTitle(string? entry)
+    {
+        return ResolveCard(entry)?.Title;
+    }
+
+    public static string? ResolveRelicTitle(string? entry)
+    {
+        return ResolveRelic(entry)?.Title.GetFormattedText();
+    }
+
+    public static IEnumerable<IHoverTip> BuildCardHoverTips(string? entry)
+    {
+        return BuildCardHoverTips(ResolveCard(entry));
+    }
+
     public static IEnumerable<IHoverTip> BuildCardHoverTips(CardModel? model)
     {
         return model == null
             ? []
             : [HoverTipFactory.FromCard(model), .. model.HoverTips];
+    }
+
+    public static IEnumerable<IHoverTip> BuildRelicHoverTips(string? entry)
+    {
+        return BuildRelicHoverTips(ResolveRelic(entry));
     }
 
     public static IEnumerable<IHoverTip> BuildRelicHoverTips(RelicModel? model)

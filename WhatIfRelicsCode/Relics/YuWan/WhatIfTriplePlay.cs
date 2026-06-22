@@ -1,23 +1,28 @@
 using STS2RitsuLib.Interop.AutoRegistration;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using WhatIfRelics.WhatIfRelicsCode.Interop;
+using WhatIfRelics.WhatIfRelicsCode.Relics.YuWan;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfHeartsteel")]
-public class WhatIfHeartsteel : WhatIfRelicModel, IWhatIfUniformRelicSource
+[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfTriplePlay")]
+public class WhatIfTriplePlay : WhatIfRelicModel, IWhatIfUniformRelicSource, IYuWanWhatIfRelic
 {
-    public WhatIfHeartsteel() : base(true)
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        YuWanInteropResolver.BuildRelicHoverTips(YuWanInterop.GetTriplePlayRelicEntry());
+    
+    public WhatIfTriplePlay() : base(true)
     {
     }
 
     public override bool TryModifyRewards(Player player, List<Reward> rewards, AbstractRoom? room)
     {
-        if (player != Owner || Owner == null)
+        if (player != Owner)
         {
             return false;
         }
@@ -27,8 +32,8 @@ public class WhatIfHeartsteel : WhatIfRelicModel, IWhatIfUniformRelicSource
             return false;
         }
 
-        var heartsteelModel = YuWanInteropResolver.ResolveRelic(YuWanInterop.GetHeartsteelRelicEntry());
-        if (heartsteelModel == null)
+        var triplePlayModel = YuWanInteropResolver.ResolveRelic(YuWanInterop.GetTriplePlayRelicEntry());
+        if (triplePlayModel == null)
         {
             return false;
         }
@@ -37,22 +42,15 @@ public class WhatIfHeartsteel : WhatIfRelicModel, IWhatIfUniformRelicSource
         {
             if (rewards[i] is RelicReward)
             {
-                var heartsteelRelic = heartsteelModel.ToMutable();
-                rewards[i] = new RelicReward(heartsteelRelic, player);
+                rewards[i] = new RelicReward(triplePlayModel.ToMutable(), player);
             }
         }
-
         return true;
     }
 
     public RelicModel GetUniformRelic(IRunState runState)
     {
-        return YuWanInteropResolver.ResolveRelic(YuWanInterop.GetHeartsteelRelicEntry()) ?? this;
-    }
-
-    public RelicModel? GetUniformRelicForHoverTips()
-    {
-        return YuWanInteropResolver.ResolveRelic(YuWanInterop.GetHeartsteelRelicEntry());
+        return YuWanInteropResolver.ResolveRelic(YuWanInterop.GetTriplePlayRelicEntry()) ?? this;
     }
 }
 

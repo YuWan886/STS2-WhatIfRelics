@@ -1,28 +1,24 @@
 using STS2RitsuLib.Interop.AutoRegistration;
 using MegaCrit.Sts2.Core.Entities.Players;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using WhatIfRelics.WhatIfRelicsCode.Interop;
+using WhatIfRelics.WhatIfRelicsCode.Relics.YuWan;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfTriplePlay")]
-public class WhatIfTriplePlay : WhatIfRelicModel, IWhatIfUniformRelicSource
+[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfTenYearBamboo")]
+public class WhatIfTenYearBamboo : WhatIfRelicModel, IWhatIfUniformRelicSource, IYuWanWhatIfRelic
 {
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        YuWanInteropResolver.BuildRelicHoverTips(
-            YuWanInteropResolver.ResolveRelic(YuWanInterop.GetTriplePlayRelicEntry()));
-    
-    public WhatIfTriplePlay() : base(true)
+    public WhatIfTenYearBamboo() : base(true)
     {
     }
 
     public override bool TryModifyRewards(Player player, List<Reward> rewards, AbstractRoom? room)
     {
-        if (player != Owner)
+        if (player != Owner || Owner == null)
         {
             return false;
         }
@@ -32,8 +28,8 @@ public class WhatIfTriplePlay : WhatIfRelicModel, IWhatIfUniformRelicSource
             return false;
         }
 
-        var triplePlayModel = YuWanInteropResolver.ResolveRelic(YuWanInterop.GetTriplePlayRelicEntry());
-        if (triplePlayModel == null)
+        var bambooModel = YuWanInteropResolver.ResolveRelic(YuWanInterop.GetTenYearBambooRelicEntry());
+        if (bambooModel == null)
         {
             return false;
         }
@@ -42,15 +38,22 @@ public class WhatIfTriplePlay : WhatIfRelicModel, IWhatIfUniformRelicSource
         {
             if (rewards[i] is RelicReward)
             {
-                rewards[i] = new RelicReward(triplePlayModel.ToMutable(), player);
+                var bambooRelic = bambooModel.ToMutable();
+                rewards[i] = new RelicReward(bambooRelic, player);
             }
         }
+
         return true;
     }
 
     public RelicModel GetUniformRelic(IRunState runState)
     {
-        return YuWanInteropResolver.ResolveRelic(YuWanInterop.GetTriplePlayRelicEntry()) ?? this;
+        return YuWanInteropResolver.ResolveRelic(YuWanInterop.GetTenYearBambooRelicEntry()) ?? this;
+    }
+
+    public RelicModel? GetUniformRelicForHoverTips()
+    {
+        return YuWanInteropResolver.ResolveRelic(YuWanInterop.GetTenYearBambooRelicEntry());
     }
 }
 

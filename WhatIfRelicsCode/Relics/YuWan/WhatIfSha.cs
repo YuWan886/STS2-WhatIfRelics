@@ -6,11 +6,12 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Runs;
 using WhatIfRelics.WhatIfRelicsCode.Interop;
+using WhatIfRelics.WhatIfRelicsCode.Relics.YuWan;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
 [RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfSha")]
-public class WhatIfSha : WhatIfRelicModel
+public class WhatIfSha : WhatIfRelicModel, IYuWanWhatIfRelic
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         ResolveHoverTips();
@@ -83,11 +84,8 @@ public class WhatIfSha : WhatIfRelicModel
 
     private static IEnumerable<IHoverTip> ResolveHoverTips()
     {
-        return YuWanInteropResolver.BuildCardHoverTips(
-            YuWanInteropResolver.ResolveCard(YuWanInterop.GetShaCardEntry()));
+        return YuWanInteropResolver.BuildCardHoverTips(YuWanInterop.GetShaCardEntry());
     }
 }
-
-
 
 

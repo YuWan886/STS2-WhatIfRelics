@@ -3,11 +3,12 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.HoverTips;
 using WhatIfRelics.WhatIfRelicsCode.Interop;
+using WhatIfRelics.WhatIfRelicsCode.Relics.YuWan;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
 [RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfDirectWin")]
-public class WhatIfDirectWin : WhatIfRelicModel
+public class WhatIfDirectWin : WhatIfRelicModel, IYuWanWhatIfRelic
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         ResolveHoverTips();
@@ -43,11 +44,8 @@ public class WhatIfDirectWin : WhatIfRelicModel
 
     private static IEnumerable<IHoverTip> ResolveHoverTips()
     {
-        return YuWanInteropResolver.BuildCardHoverTips(
-            YuWanInteropResolver.ResolveCard(YuWanInterop.GetSadArmyWinCardEntry()));
+        return YuWanInteropResolver.BuildCardHoverTips(YuWanInterop.GetSadArmyWinCardEntry());
     }
 }
-
-
 
 

@@ -7,11 +7,12 @@ using MegaCrit.Sts2.Core.Runs;
 using System.Security.Cryptography;
 using System.Text;
 using WhatIfRelics.WhatIfRelicsCode.Interop;
+using WhatIfRelics.WhatIfRelicsCode.Relics.YuWan;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
 [RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfSeriesRelics")]
-public class WhatIfSeriesRelics : WhatIfRelicModel, IWhatIfUniformRelicSource
+public class WhatIfSeriesRelics : WhatIfRelicModel, IWhatIfUniformRelicSource, IYuWanWhatIfRelic
 {
     private static readonly Lazy<RelicModel[]> SevenSinRelics = new(() =>
         YuWanInteropResolver.ResolveRelics(YuWanInterop.GetSeriesRelicEntries()));

@@ -103,12 +103,20 @@ internal static class WhatIfRelicDescriptionBuilder
             WhatIfSha => BuildShaEffect(),
             WhatIfStrike => BuildStrikeEffect(),
             WhatIfAncientCards => BuildAncientCardsEffect(),
-            WhatIfTriplePlay triplePlay => BuildUniformRelicEffect(triplePlay),
+            WhatIfTriplePlay triplePlay => BuildUniformRelicEffect(
+                triplePlay,
+                YuWanInterop.GetTriplePlayRelicEntry(),
+                fallbackZhsTitle: "33",
+                fallbackEngTitle: "Triple Play"),
             WhatIfSeriesRelics seriesRelics => BuildSeriesRelicsEffect(seriesRelics),
             WhatIfBingBong bingBong => BuildUniformRelicEffect(bingBong),
             WhatIfChemicalX chemicalX => BuildUniformRelicEffect(chemicalX),
             WhatIfDragonFruit dragonFruit => BuildUniformRelicEffect(dragonFruit),
-            WhatIfHeartsteel heartsteel => BuildUniformRelicEffect(heartsteel),
+            WhatIfHeartsteel heartsteel => BuildUniformRelicEffect(
+                heartsteel,
+                YuWanInterop.GetHeartsteelRelicEntry(),
+                fallbackZhsTitle: "心之钢",
+                fallbackEngTitle: "Heartsteel"),
             WhatIfHistoryCourse historyCourse => BuildUniformRelicEffect(historyCourse),
             WhatIfOldCoin oldCoin => BuildUniformRelicEffect(oldCoin),
             WhatIfTenYearBamboo => BuildTenYearBambooEffect(),
@@ -281,11 +289,10 @@ internal static class WhatIfRelicDescriptionBuilder
 
     private static string BuildShaEffect()
     {
-        CardModel? shaModel = YuWanInteropResolver.ResolveCard(YuWanInterop.GetShaCardEntry());
-        string? resolvedTitle = shaModel?.Title;
-        string title = string.IsNullOrWhiteSpace(resolvedTitle)
-            ? GetText("杀", "Sha")
-            : resolvedTitle;
+        string title = GetResolvedCardTitle(
+            YuWanInterop.GetShaCardEntry(),
+            fallbackZhsTitle: "杀",
+            fallbackEngTitle: "Sha");
         return BuildSingleCardEffect(title);
     }
 
@@ -307,6 +314,21 @@ internal static class WhatIfRelicDescriptionBuilder
             eng: $"All replaced relics become [gold]{relicTitle}[/gold].");
     }
 
+    private static string BuildUniformRelicEffect(
+        IWhatIfUniformRelicSource relicSource,
+        string? entry,
+        string fallbackZhsTitle,
+        string fallbackEngTitle)
+    {
+        string fallbackTitle = GetResolvedRelicTitle(entry, fallbackZhsTitle, fallbackEngTitle);
+        string relicTitle = relicSource.GetUniformRelicForHoverTips()?.Title.GetFormattedText()
+            ?? (relicSource as RelicModel)?.HoverTipsExcludingRelic.OfType<HoverTip>().FirstOrDefault().Title
+            ?? fallbackTitle;
+        return GetText(
+            zhs: $"所有被替换的遗物都会变为[gold]{relicTitle}[/gold]。",
+            eng: $"All replaced relics become [gold]{relicTitle}[/gold].");
+    }
+
     private static string BuildSeriesRelicsEffect(WhatIfSeriesRelics relic)
     {
         string relicTitle = relic.Title.GetFormattedText().Replace("假如只有", string.Empty).Trim();
@@ -318,17 +340,25 @@ internal static class WhatIfRelicDescriptionBuilder
 
     private static string BuildTenYearBambooEffect()
     {
-        string relicTitle = WhatIfTenYearBambooTitle();
+        string relicTitle = GetResolvedRelicTitle(
+            YuWanInterop.GetTenYearBambooRelicEntry(),
+            fallbackZhsTitle: "10年孤竹",
+            fallbackEngTitle: "Ten Year Bamboo");
         return GetText(
             zhs: $"所有被替换的遗物都会变为[gold]{relicTitle}[/gold]。",
             eng: $"All replaced relics become [gold]{relicTitle}[/gold].");
     }
 
-    private static string WhatIfTenYearBambooTitle()
+    private static string GetResolvedCardTitle(string? entry, string fallbackZhsTitle, string fallbackEngTitle)
     {
-        RelicModel? bambooRelic = YuWanInteropResolver.ResolveRelic(YuWanInterop.GetTenYearBambooRelicEntry());
-        string? title = bambooRelic?.Title.GetFormattedText();
-        return string.IsNullOrWhiteSpace(title) ? GetText("10年孤竹", "Ten Year Bamboo") : title;
+        string? title = YuWanInteropResolver.ResolveCardTitle(entry);
+        return string.IsNullOrWhiteSpace(title) ? GetText(fallbackZhsTitle, fallbackEngTitle) : title;
+    }
+
+    private static string GetResolvedRelicTitle(string? entry, string fallbackZhsTitle, string fallbackEngTitle)
+    {
+        string? title = YuWanInteropResolver.ResolveRelicTitle(entry);
+        return string.IsNullOrWhiteSpace(title) ? GetText(fallbackZhsTitle, fallbackEngTitle) : title;
     }
 
     private static string TakeFirstSentence(string text)

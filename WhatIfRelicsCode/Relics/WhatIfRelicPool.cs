@@ -8,5 +8,3 @@ public sealed class WhatIfRelicPool : TypeListRelicPoolModel
 }
 
 
-
-

@@ -5,13 +5,14 @@ using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using WhatIfRelics.WhatIfRelicsCode.Interop;
+using WhatIfRelics.WhatIfRelicsCode.Relics.YuWan;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfTenYearBamboo")]
-public class WhatIfTenYearBamboo : WhatIfRelicModel, IWhatIfUniformRelicSource
+[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfHeartsteel")]
+public class WhatIfHeartsteel : WhatIfRelicModel, IWhatIfUniformRelicSource, IYuWanWhatIfRelic
 {
-    public WhatIfTenYearBamboo() : base(true)
+    public WhatIfHeartsteel() : base(true)
     {
     }
 
@@ -27,8 +28,8 @@ public class WhatIfTenYearBamboo : WhatIfRelicModel, IWhatIfUniformRelicSource
             return false;
         }
 
-        var bambooModel = YuWanInteropResolver.ResolveRelic(YuWanInterop.GetTenYearBambooRelicEntry());
-        if (bambooModel == null)
+        var heartsteelModel = YuWanInteropResolver.ResolveRelic(YuWanInterop.GetHeartsteelRelicEntry());
+        if (heartsteelModel == null)
         {
             return false;
         }
@@ -37,8 +38,8 @@ public class WhatIfTenYearBamboo : WhatIfRelicModel, IWhatIfUniformRelicSource
         {
             if (rewards[i] is RelicReward)
             {
-                var bambooRelic = bambooModel.ToMutable();
-                rewards[i] = new RelicReward(bambooRelic, player);
+                var heartsteelRelic = heartsteelModel.ToMutable();
+                rewards[i] = new RelicReward(heartsteelRelic, player);
             }
         }
 
@@ -47,12 +48,12 @@ public class WhatIfTenYearBamboo : WhatIfRelicModel, IWhatIfUniformRelicSource
 
     public RelicModel GetUniformRelic(IRunState runState)
     {
-        return YuWanInteropResolver.ResolveRelic(YuWanInterop.GetTenYearBambooRelicEntry()) ?? this;
+        return YuWanInteropResolver.ResolveRelic(YuWanInterop.GetHeartsteelRelicEntry()) ?? this;
     }
 
     public RelicModel? GetUniformRelicForHoverTips()
     {
-        return YuWanInteropResolver.ResolveRelic(YuWanInterop.GetTenYearBambooRelicEntry());
+        return YuWanInteropResolver.ResolveRelic(YuWanInterop.GetHeartsteelRelicEntry());
     }
 }
 
