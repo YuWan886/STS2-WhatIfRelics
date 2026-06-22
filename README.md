@@ -16,6 +16,11 @@
 
 - [YuWanCard](https://github.com/YuWan886/Sts2-YuWanCard)
 
+## 安装
+
+- [**创意工坊**](https://steamcommunity.com/sharedfiles/filedetails/?id=3749676176)
+- [**备用下载**](https://pan.quark.cn/s/734161e964f3)
+
 ---
 
 A standalone extraction of the "What If" relic series from YuWanCard. At the start of each run, choose a relic that bends the rules of the entire game.
@@ -33,3 +38,7 @@ A standalone extraction of the "What If" relic series from YuWanCard. At the sta
 ## Interop Mod
 
 - [YuWanCard](https://github.com/YuWan886/Sts2-YuWanCard)
+
+## Install
+
+- [**Steam Workshop**](https://steamcommunity.com/sharedfiles/filedetails/?id=3749676176)
