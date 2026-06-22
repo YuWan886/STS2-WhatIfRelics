@@ -2,7 +2,6 @@ using STS2RitsuLib.Interop.AutoRegistration;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Models;
 using WhatIfRelics.WhatIfRelicsCode.Interop;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;

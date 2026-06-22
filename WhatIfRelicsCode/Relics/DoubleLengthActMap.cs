@@ -1,4 +1,3 @@
-using STS2RitsuLib.Interop.AutoRegistration;
 using MegaCrit.Sts2.Core.Map;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;

@@ -1,7 +1,6 @@
 using MegaCrit.Sts2.Core.Multiplayer.Game;
 using MegaCrit.Sts2.Core.Runs;
 using STS2RitsuLib;
-using STS2RitsuLib.Lifecycle;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Networking;
 

@@ -17,6 +17,6 @@ internal static class WhatIfRelicDescriptionPatch
             return;
         }
 
-        __result = WhatIfRelicDescriptionBuilder.BuildLocString(whatIfRelic);
+        __result = WhatIfRelicDescriptionBuilder.BuildCenteredLocString(whatIfRelic);
     }
 }

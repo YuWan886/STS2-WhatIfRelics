@@ -7,7 +7,6 @@ using MegaCrit.Sts2.Core.Events;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Events;
 using WhatIfRelics.WhatIfRelicsCode.Localization;
 using WhatIfRelics.WhatIfRelicsCode.Relics;
 using WhatIfRelics.WhatIfRelicsCode.Utils;
@@ -169,7 +168,7 @@ public static class StartingAncientOptionsPatch
     {
         if (relic is WhatIfRelicModel whatIfRelic)
         {
-            return WhatIfRelicDescriptionBuilder.BuildLocString(whatIfRelic);
+            return WhatIfRelicDescriptionBuilder.BuildOptionLocString(whatIfRelic);
         }
 
         var description = relic.Description;

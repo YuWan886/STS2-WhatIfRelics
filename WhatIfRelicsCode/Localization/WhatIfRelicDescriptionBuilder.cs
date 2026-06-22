@@ -1,4 +1,3 @@
-using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
@@ -15,10 +14,24 @@ internal static class WhatIfRelicDescriptionBuilder
 {
     private const string DynamicDescriptionTemplateKey = "WHAT_IF_RELICS_DYNAMIC_DESCRIPTION_TEMPLATE";
 
-    public static LocString BuildLocString(WhatIfRelicModel relic)
+    public static LocString BuildCenteredLocString(WhatIfRelicModel relic)
     {
         LocString dynamicDescription = new("relics", DynamicDescriptionTemplateKey);
         dynamicDescription.Add("DynamicWhatIfDescription", WrapCentered(Build(relic)));
+        return dynamicDescription;
+    }
+
+    public static LocString BuildLocString(WhatIfRelicModel relic)
+    {
+        LocString dynamicDescription = new("relics", DynamicDescriptionTemplateKey);
+        dynamicDescription.Add("DynamicWhatIfDescription", Build(relic));
+        return dynamicDescription;
+    }
+
+    public static LocString BuildOptionLocString(WhatIfRelicModel relic)
+    {
+        LocString dynamicDescription = new("relics", DynamicDescriptionTemplateKey);
+        dynamicDescription.Add("DynamicWhatIfDescription", BuildOptionText(relic));
         return dynamicDescription;
     }
 
@@ -38,6 +51,17 @@ internal static class WhatIfRelicDescriptionBuilder
         }
 
         return effect + "\n" + scope;
+    }
+
+    public static string BuildOptionText(WhatIfRelicModel relic)
+    {
+        string? effect = BuildEffectDescription(relic);
+        if (!string.IsNullOrWhiteSpace(effect))
+        {
+            return effect;
+        }
+
+        return TakeFirstSentence(BuildOriginalDynamicDescription(relic).GetFormattedText());
     }
 
     private static string WrapCentered(string text)
@@ -305,6 +329,18 @@ internal static class WhatIfRelicDescriptionBuilder
         RelicModel? bambooRelic = YuWanInteropResolver.ResolveRelic(YuWanInterop.GetTenYearBambooRelicEntry());
         string? title = bambooRelic?.Title.GetFormattedText();
         return string.IsNullOrWhiteSpace(title) ? GetText("10年孤竹", "Ten Year Bamboo") : title;
+    }
+
+    private static string TakeFirstSentence(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            return text;
+        }
+
+        string normalized = text.Replace("\r\n", "\n");
+        int newlineIndex = normalized.IndexOf('\n');
+        return newlineIndex >= 0 ? normalized[..newlineIndex] : normalized;
     }
 
     private static string GetFirstExtraHoverTipTitle(WhatIfRelicModel relic)
