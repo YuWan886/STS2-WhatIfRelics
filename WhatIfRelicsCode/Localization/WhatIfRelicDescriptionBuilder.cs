@@ -121,6 +121,21 @@ internal static class WhatIfRelicDescriptionBuilder
             WhatIfOldCoin oldCoin => BuildUniformRelicEffect(oldCoin),
             WhatIfTenYearBamboo => BuildTenYearBambooEffect(),
             WhatIfWhiteStar whiteStar => BuildUniformRelicEffect(whiteStar),
+            WhatIfNineLives => GetText(
+                zhs: "当你将受到致命伤害时，改为存活且生命值变为[gold]1[/gold]。每局最多触发[gold]9[/gold]次。",
+                eng: "When you would take fatal damage, survive instead and set your HP to [gold]1[/gold]. Triggers up to [gold]9[/gold] times per run."),
+            WhatIfSellCards => GetText(
+                zhs: "在[gold]商店[/gold]中可以右键牌组里的卡牌出售，售价为该卡商店购买价的[gold]50%[/gold]。",
+                eng: "In [gold]shops[/gold], you can right-click cards in your deck to sell them for [gold]50%[/gold] of their shop buy price."),
+            WhatIfInfinitePotions => GetText(
+                zhs: "每当你拾取或使用药水后，都会用随机药水填满所有空药水栏位。",
+                eng: "Whenever you procure or use a potion, fill all empty potion slots with random potions."),
+            WhatIfSoloUpgrade => GetText(
+                zhs: "每场战斗结束后，随机升级牌组中的[gold]1[/gold]张卡牌。",
+                eng: "After each combat, randomly upgrade [gold]1[/gold] card in your deck."),
+            WhatIfGoSecond => GetText(
+                zhs: "每场战斗开始时，在玩家抽牌之后、首个玩家出牌阶段之前，敌人会立即先执行一次行动。",
+                eng: "At the start of each combat, after the player draws but before the first player play phase, enemies immediately take one action."),
             _ => null
         };
     }

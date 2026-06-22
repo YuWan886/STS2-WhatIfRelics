@@ -1,19 +1,22 @@
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Saves;
 using MegaCrit.Sts2.Core.Unlocks;
 using WhatIfRelics.WhatIfRelicsCode.Relics;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Patches;
 
-[HarmonyPatch(typeof(SaveManager), nameof(SaveManager.GenerateUnlockStateFromProgress))]
-internal static class WhatIfUnlockStatePatch
+[HarmonyPatch(typeof(UnlockState), nameof(UnlockState.FromSerializable))]
+internal static class WhatIfUnlockStateDeserializationPatch
 {
-    [HarmonyPostfix]
-    private static void RemoveCorruptedWhatIfRelicEntries(ref UnlockState __result)
+    [HarmonyPrefix]
+    private static void RemoveCorruptedWhatIfRelicEntries(SerializableUnlockState unlockState)
     {
-        SerializableUnlockState serialized = __result.ToSerializable();
-        List<ModelId> corruptedEntries = serialized.EncountersSeen
+        if (unlockState?.EncountersSeen == null || unlockState.EncountersSeen.Count == 0)
+        {
+            return;
+        }
+
+        List<ModelId> corruptedEntries = unlockState.EncountersSeen
             .Where(IsCorruptedWhatIfRelicEntry)
             .Distinct()
             .ToList();
@@ -22,12 +25,11 @@ internal static class WhatIfUnlockStatePatch
             return;
         }
 
-        serialized.EncountersSeen = serialized.EncountersSeen
+        unlockState.EncountersSeen = unlockState.EncountersSeen
             .Where(id => !corruptedEntries.Contains(id))
             .ToList();
-        __result = UnlockState.FromSerializable(serialized);
         Entry.Logger.Info(
-            $"[WhatIfUnlockStatePatch] Removed {corruptedEntries.Count} corrupted WhatIf relic ids from unlock-state encounters: {string.Join(", ", corruptedEntries.Select(static id => id.ToString()))}");
+            $"[WhatIfUnlockStateDeserializationPatch] Removed {corruptedEntries.Count} corrupted WhatIf relic ids from serialized unlock-state encounters: {string.Join(", ", corruptedEntries.Select(static id => id.ToString()))}");
     }
 
     private static bool IsCorruptedWhatIfRelicEntry(ModelId id)

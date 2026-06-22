@@ -1,5 +1,4 @@
 using WhatIfRelics.WhatIfRelicsCode.Interop;
-using WhatIfRelics.WhatIfRelicsCode.Relics;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics.YuWan;
 

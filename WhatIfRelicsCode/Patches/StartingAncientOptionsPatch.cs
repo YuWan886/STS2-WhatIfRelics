@@ -158,7 +158,7 @@ public static class StartingAncientOptionsPatch
 
         if (isMultiplayer)
         {
-            candidates = candidates.Where(static relic => relic is not WhatIfAllRelics);
+            candidates = candidates.Where(static relic => relic is not WhatIfAllRelics and not WhatIfGoSecond);
         }
 
         return candidates.ToList();

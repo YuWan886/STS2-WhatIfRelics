@@ -180,6 +180,7 @@ internal static class WhatIfRelicCompendiumPatch
             .Select(ModelDb.GetByIdOrNull<RelicModel>)
             .OfType<RelicModel>()
             .ToHashSet();
+        discoveredRelics.UnionWith(whatIfRelics);
         var unlockedRelics = SaveManager.Instance.GenerateUnlockStateFromProgress().Relics.ToHashSet();
 
         rootCategory.Visible = true;
@@ -230,6 +231,8 @@ internal static class WhatIfRelicCompendiumPatch
             {
                 continue;
             }
+
+            seenRelics.UnionWith(relics);
 
             NRelicCollectionCategory? subcategory = CreateSubcategoryNode();
             if (subcategory == null)
