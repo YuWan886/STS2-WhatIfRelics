@@ -1,0 +1,10 @@
+{
+  "whatifrelics.mod_title": "假如遗物",
+  "whatifrelics.settings.page.title": "假如遗物设置",
+  "whatifrelics.settings.section.general.title": "通用",
+  "whatifrelics.settings.enable_at_start": "启用开局假如遗物选择",
+  "whatifrelics.settings.section.reset.title": "重置",
+  "whatifrelics.settings.reset.label": "恢复默认",
+  "whatifrelics.settings.reset.button": "重置",
+  "whatifrelics.settings.reset.description": "将所有假如遗物设置恢复为默认值。"
+}

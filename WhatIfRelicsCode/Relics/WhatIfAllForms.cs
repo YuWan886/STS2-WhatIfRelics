@@ -1,0 +1,46 @@
+using STS2RitsuLib.Interop.AutoRegistration;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Cards;
+
+namespace WhatIfRelics.WhatIfRelicsCode.Relics;
+
+[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfAllForms")]
+public class WhatIfAllForms : WhatIfRelicModel
+{
+    private static readonly CardModel[] FormCards =
+    [
+        ModelDb.Card<DemonForm>(),
+        ModelDb.Card<EchoForm>(),
+        ModelDb.Card<SerpentForm>(),
+        ModelDb.Card<ReaperForm>(),
+        ModelDb.Card<VoidForm>(),
+        ModelDb.Card<WraithForm>()
+    ];
+
+    public WhatIfAllForms() : base(true)
+    {
+    }
+
+    public override async Task AfterObtained()
+    {
+        await base.AfterObtained();
+
+        if (Owner == null)
+        {
+            return;
+        }
+
+        var cardsToAdd = FormCards
+            .Select(card => Owner.RunState.CreateCard(card, Owner))
+            .ToList();
+
+        var addResults = await CardPileCmd.Add(cardsToAdd, PileType.Deck);
+        CardCmd.PreviewCardPileAdd(addResults);
+    }
+}
+
+
+
+

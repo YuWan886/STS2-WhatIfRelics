@@ -1,0 +1,10 @@
+{
+  "whatifrelics.mod_title": "What If Relics",
+  "whatifrelics.settings.page.title": "What If Relics Settings",
+  "whatifrelics.settings.section.general.title": "General",
+  "whatifrelics.settings.enable_at_start": "Enable start-of-run What If selection",
+  "whatifrelics.settings.section.reset.title": "Reset",
+  "whatifrelics.settings.reset.label": "Restore Defaults",
+  "whatifrelics.settings.reset.button": "Reset",
+  "whatifrelics.settings.reset.description": "Reset all What If Relics settings back to their default values."
+}
