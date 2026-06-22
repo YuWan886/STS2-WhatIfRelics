@@ -22,6 +22,11 @@ public class WhatIfWhiteStar : WhatIfRelicModel, IWhatIfUniformRelicSource
             return false;
         }
 
+        if (!WhatIfReplacementContext.ShouldReplaceRelicRewards(room))
+        {
+            return false;
+        }
+
         var starModel = ModelDb.Relic<WhiteStar>();
 
         for (int i = 0; i < rewards.Count; i++)
@@ -36,6 +41,11 @@ public class WhatIfWhiteStar : WhatIfRelicModel, IWhatIfUniformRelicSource
     }
 
     public RelicModel GetUniformRelic(IRunState runState)
+    {
+        return ModelDb.Relic<WhiteStar>();
+    }
+
+    public RelicModel? GetUniformRelicForHoverTips()
     {
         return ModelDb.Relic<WhiteStar>();
     }

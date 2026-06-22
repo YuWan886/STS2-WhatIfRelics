@@ -27,6 +27,11 @@ public class WhatIfAllForms : WhatIfRelicModel
     {
         await base.AfterObtained();
 
+        if (!WhatIfReplacementContext.ShouldReplaceStartingDeck())
+        {
+            return;
+        }
+
         if (Owner == null)
         {
             return;

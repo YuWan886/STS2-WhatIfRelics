@@ -1,8 +1,8 @@
 {
   "id": "WhatIfRelics",
-  "name": "What If Relics",
+  "name": "假如（）（）",
   "author": "一条鱼丸_",
-  "description": "将 YuWanCard 中的假如遗物拆分为独立模组，提供开局 What If 选择，并保留对 YuWanCard 特殊卡牌与遗物的可选联动。",
+  "description": "假如（）（）\n联动mod：\n YuWanCard",
   "version": "v1.0.0",
   "min_game_version": "0.107.1",
   "has_pck": true,

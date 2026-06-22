@@ -17,6 +17,62 @@ public static class WhatIfRelicsSettingsPage
         static s => s.EnableWhatIfRelics,
         static (s, v) => s.EnableWhatIfRelics = v);
 
+    private static readonly ModSettingsValueBinding<WhatIfRelicsSettings, bool> ReplaceStartingDeckBinding = new(
+        Entry.ModId,
+        DataKey,
+        SaveScope.Global,
+        static s => s.ReplaceStartingDeck,
+        static (s, v) => s.ReplaceStartingDeck = v);
+
+    private static readonly ModSettingsValueBinding<WhatIfRelicsSettings, bool> ReplaceCardRewardsBinding = new(
+        Entry.ModId,
+        DataKey,
+        SaveScope.Global,
+        static s => s.ReplaceCardRewards,
+        static (s, v) => s.ReplaceCardRewards = v);
+
+    private static readonly ModSettingsValueBinding<WhatIfRelicsSettings, bool> ReplaceRelicRewardsBinding = new(
+        Entry.ModId,
+        DataKey,
+        SaveScope.Global,
+        static s => s.ReplaceRelicRewards,
+        static (s, v) => s.ReplaceRelicRewards = v);
+
+    private static readonly ModSettingsValueBinding<WhatIfRelicsSettings, bool> ReplacePotionRewardsBinding = new(
+        Entry.ModId,
+        DataKey,
+        SaveScope.Global,
+        static s => s.ReplacePotionRewards,
+        static (s, v) => s.ReplacePotionRewards = v);
+
+    private static readonly ModSettingsValueBinding<WhatIfRelicsSettings, bool> ReplaceTreasureRelicsBinding = new(
+        Entry.ModId,
+        DataKey,
+        SaveScope.Global,
+        static s => s.ReplaceTreasureRelics,
+        static (s, v) => s.ReplaceTreasureRelics = v);
+
+    private static readonly ModSettingsValueBinding<WhatIfRelicsSettings, bool> ReplaceShopCardsBinding = new(
+        Entry.ModId,
+        DataKey,
+        SaveScope.Global,
+        static s => s.ReplaceShopCards,
+        static (s, v) => s.ReplaceShopCards = v);
+
+    private static readonly ModSettingsValueBinding<WhatIfRelicsSettings, bool> ReplaceShopRelicsBinding = new(
+        Entry.ModId,
+        DataKey,
+        SaveScope.Global,
+        static s => s.ReplaceShopRelics,
+        static (s, v) => s.ReplaceShopRelics = v);
+
+    private static readonly ModSettingsValueBinding<WhatIfRelicsSettings, bool> ReplaceShopPotionsBinding = new(
+        Entry.ModId,
+        DataKey,
+        SaveScope.Global,
+        static s => s.ReplaceShopPotions,
+        static (s, v) => s.ReplaceShopPotions = v);
+
     public static WhatIfRelicsSettings Current =>
         RitsuLibFramework.GetDataStore(Entry.ModId).Get<WhatIfRelicsSettings>(DataKey);
 
@@ -43,6 +99,42 @@ public static class WhatIfRelicsSettingsPage
                             "enable_what_if_relics",
                             WhatIfRelicsLocalization.EnableAtStartText(),
                             EnableWhatIfRelicsBinding))
+                .AddSection(
+                    "replacement_scope",
+                    section => section
+                        .WithTitle(WhatIfRelicsLocalization.ReplacementSectionTitleText())
+                        .AddToggle(
+                            "replace_starting_deck",
+                            WhatIfRelicsLocalization.ReplaceStartingDeckText(),
+                            ReplaceStartingDeckBinding)
+                        .AddToggle(
+                            "replace_card_rewards",
+                            WhatIfRelicsLocalization.ReplaceCardRewardsText(),
+                            ReplaceCardRewardsBinding)
+                        .AddToggle(
+                            "replace_relic_rewards",
+                            WhatIfRelicsLocalization.ReplaceRelicRewardsText(),
+                            ReplaceRelicRewardsBinding)
+                        .AddToggle(
+                            "replace_potion_rewards",
+                            WhatIfRelicsLocalization.ReplacePotionRewardsText(),
+                            ReplacePotionRewardsBinding)
+                        .AddToggle(
+                            "replace_treasure_relics",
+                            WhatIfRelicsLocalization.ReplaceTreasureRelicsText(),
+                            ReplaceTreasureRelicsBinding)
+                        .AddToggle(
+                            "replace_shop_cards",
+                            WhatIfRelicsLocalization.ReplaceShopCardsText(),
+                            ReplaceShopCardsBinding)
+                        .AddToggle(
+                            "replace_shop_relics",
+                            WhatIfRelicsLocalization.ReplaceShopRelicsText(),
+                            ReplaceShopRelicsBinding)
+                        .AddToggle(
+                            "replace_shop_potions",
+                            WhatIfRelicsLocalization.ReplaceShopPotionsText(),
+                            ReplaceShopPotionsBinding))
                 .AddSection(
                     "reset",
                     section => section

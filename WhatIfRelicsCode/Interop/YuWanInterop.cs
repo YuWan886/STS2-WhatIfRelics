@@ -1,3 +1,4 @@
+using System.Reflection;
 using STS2RitsuLib.Interop;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Interop;
@@ -5,23 +6,43 @@ namespace WhatIfRelics.WhatIfRelicsCode.Interop;
 [ModInterop("YuWanCard", "YuWanCard.WhatIfRelicsCode.Interop.YuWanWhatIfInterop")]
 public static class YuWanInterop
 {
-    public static bool IsAvailable() => false;
+    private const string RemoteInteropTypeName = "YuWanCard.WhatIfRelicsCode.Interop.YuWanWhatIfInterop, YuWanCard";
 
-    public static string[] GetRegisteredWhatIfRelicTypeNames() => [];
+    public static bool IsAvailable() => InvokeRemote(nameof(IsAvailable), false);
 
-    public static string[] GetSupplementalWhatIfRelicTypeNames() => [];
+    public static string[] GetRegisteredWhatIfRelicTypeNames() => InvokeRemote<string[]>(nameof(GetRegisteredWhatIfRelicTypeNames), []);
 
-    public static string? GetShaCardEntry() => null;
+    public static string[] GetSupplementalWhatIfRelicTypeNames() => InvokeRemote<string[]>(nameof(GetSupplementalWhatIfRelicTypeNames), []);
 
-    public static string? GetSadArmyWinCardEntry() => null;
+    public static string? GetShaCardEntry() => InvokeRemote<string?>(nameof(GetShaCardEntry), null);
 
-    public static string? GetHeartsteelRelicEntry() => null;
+    public static string? GetSadArmyWinCardEntry() => InvokeRemote<string?>(nameof(GetSadArmyWinCardEntry), null);
 
-    public static string? GetTenYearBambooRelicEntry() => null;
+    public static string? GetHeartsteelRelicEntry() => InvokeRemote<string?>(nameof(GetHeartsteelRelicEntry), null);
 
-    public static string? GetTriplePlayRelicEntry() => null;
+    public static string? GetTenYearBambooRelicEntry() => InvokeRemote<string?>(nameof(GetTenYearBambooRelicEntry), null);
 
-    public static string[] GetSeriesRelicEntries() => [];
+    public static string? GetTriplePlayRelicEntry() => InvokeRemote<string?>(nameof(GetTriplePlayRelicEntry), null);
+
+    public static string[] GetSeriesRelicEntries() => InvokeRemote<string[]>(nameof(GetSeriesRelicEntries), []);
+
+    private static T InvokeRemote<T>(string methodName, T fallback)
+    {
+        try
+        {
+            Type? remoteType = Type.GetType(RemoteInteropTypeName, throwOnError: false);
+            MethodInfo? method = remoteType?.GetMethod(methodName, BindingFlags.Public | BindingFlags.Static);
+            if (method?.Invoke(null, null) is T value)
+            {
+                return value;
+            }
+        }
+        catch
+        {
+        }
+
+        return fallback;
+    }
 }
 
 

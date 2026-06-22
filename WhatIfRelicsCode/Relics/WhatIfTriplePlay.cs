@@ -27,6 +27,11 @@ public class WhatIfTriplePlay : WhatIfRelicModel, IWhatIfUniformRelicSource
             return false;
         }
 
+        if (!WhatIfReplacementContext.ShouldReplaceRelicRewards(room))
+        {
+            return false;
+        }
+
         var triplePlayModel = YuWanInteropResolver.ResolveRelic(YuWanInterop.GetTriplePlayRelicEntry());
         if (triplePlayModel == null)
         {

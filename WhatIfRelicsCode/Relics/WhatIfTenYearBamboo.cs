@@ -22,6 +22,11 @@ public class WhatIfTenYearBamboo : WhatIfRelicModel, IWhatIfUniformRelicSource
             return false;
         }
 
+        if (!WhatIfReplacementContext.ShouldReplaceRelicRewards(room))
+        {
+            return false;
+        }
+
         var bambooModel = YuWanInteropResolver.ResolveRelic(YuWanInterop.GetTenYearBambooRelicEntry());
         if (bambooModel == null)
         {
@@ -43,6 +48,11 @@ public class WhatIfTenYearBamboo : WhatIfRelicModel, IWhatIfUniformRelicSource
     public RelicModel GetUniformRelic(IRunState runState)
     {
         return YuWanInteropResolver.ResolveRelic(YuWanInterop.GetTenYearBambooRelicEntry()) ?? this;
+    }
+
+    public RelicModel? GetUniformRelicForHoverTips()
+    {
+        return YuWanInteropResolver.ResolveRelic(YuWanInterop.GetTenYearBambooRelicEntry());
     }
 }
 

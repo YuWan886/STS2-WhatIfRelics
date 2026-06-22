@@ -22,6 +22,11 @@ public class WhatIfHistoryCourse : WhatIfRelicModel, IWhatIfUniformRelicSource
             return false;
         }
 
+        if (!WhatIfReplacementContext.ShouldReplaceRelicRewards(room))
+        {
+            return false;
+        }
+
         var historyCourseModel = ModelDb.Relic<HistoryCourse>();
 
         for (int i = 0; i < rewards.Count; i++)
@@ -36,6 +41,11 @@ public class WhatIfHistoryCourse : WhatIfRelicModel, IWhatIfUniformRelicSource
     }
 
     public RelicModel GetUniformRelic(IRunState runState)
+    {
+        return ModelDb.Relic<HistoryCourse>();
+    }
+
+    public RelicModel? GetUniformRelicForHoverTips()
     {
         return ModelDb.Relic<HistoryCourse>();
     }

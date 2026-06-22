@@ -26,6 +26,11 @@ public class WhatIfChemicalX : WhatIfRelicModel, IWhatIfUniformRelicSource
             return false;
         }
 
+        if (!WhatIfReplacementContext.ShouldReplaceRelicRewards(room))
+        {
+            return false;
+        }
+
         var chemicalXModel = ModelDb.Relic<ChemicalX>();
 
         for (int i = 0; i < rewards.Count; i++)

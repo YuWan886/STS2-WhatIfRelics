@@ -22,6 +22,11 @@ public class WhatIfHeartsteel : WhatIfRelicModel, IWhatIfUniformRelicSource
             return false;
         }
 
+        if (!WhatIfReplacementContext.ShouldReplaceRelicRewards(room))
+        {
+            return false;
+        }
+
         var heartsteelModel = YuWanInteropResolver.ResolveRelic(YuWanInterop.GetHeartsteelRelicEntry());
         if (heartsteelModel == null)
         {
@@ -43,6 +48,11 @@ public class WhatIfHeartsteel : WhatIfRelicModel, IWhatIfUniformRelicSource
     public RelicModel GetUniformRelic(IRunState runState)
     {
         return YuWanInteropResolver.ResolveRelic(YuWanInterop.GetHeartsteelRelicEntry()) ?? this;
+    }
+
+    public RelicModel? GetUniformRelicForHoverTips()
+    {
+        return YuWanInteropResolver.ResolveRelic(YuWanInterop.GetHeartsteelRelicEntry());
     }
 }
 

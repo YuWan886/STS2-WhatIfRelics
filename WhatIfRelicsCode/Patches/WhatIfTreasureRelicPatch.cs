@@ -37,6 +37,12 @@ public static class WhatIfTreasureRelicPatch
     [HarmonyPostfix]
     public static void Postfix(TreasureRoomRelicSynchronizer __instance)
     {
+        if (!WhatIfReplacementContext.ShouldReplaceTreasureRelics())
+        {
+            ReplacementBoxes.Remove(__instance);
+            return;
+        }
+
         var runState = RunManager.Instance?.State;
         var currentRelics = CurrentRelicsField(__instance);
         if (runState == null || currentRelics == null || currentRelics.Count == 0)
@@ -80,18 +86,7 @@ public static class WhatIfTreasureRelicPatch
 
     private static IWhatIfUniformRelicSource? FindUniformRelicSource(IRunState runState)
     {
-        foreach (var player in runState.Players)
-        {
-            foreach (var relic in player.Relics)
-            {
-                if (relic is IWhatIfUniformRelicSource source)
-                {
-                    return source;
-                }
-            }
-        }
-
-        return null;
+        return WhatIfUniformSourceResolver.FindUniformRelicSource(runState);
     }
 
     [HarmonyPostfix]

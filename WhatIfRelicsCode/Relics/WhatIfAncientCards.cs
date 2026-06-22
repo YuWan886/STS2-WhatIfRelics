@@ -19,6 +19,11 @@ public class WhatIfAncientCards : WhatIfRelicModel
     {
         await base.AfterObtained();
 
+        if (!WhatIfReplacementContext.ShouldReplaceStartingDeck())
+        {
+            return;
+        }
+
         if (Owner?.Deck == null)
         {
             return;
@@ -50,6 +55,11 @@ public class WhatIfAncientCards : WhatIfRelicModel
     public override bool TryModifyCardRewardOptions(Player player, List<CardCreationResult> cardRewardOptions, CardCreationOptions creationOptions)
     {
         if (player != Owner || Owner == null)
+        {
+            return false;
+        }
+
+        if (!WhatIfReplacementContext.ShouldReplaceCardRewards(creationOptions.Source))
         {
             return false;
         }

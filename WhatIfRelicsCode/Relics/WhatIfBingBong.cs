@@ -26,6 +26,11 @@ public class WhatIfBingBong : WhatIfRelicModel, IWhatIfUniformRelicSource
             return false;
         }
 
+        if (!WhatIfReplacementContext.ShouldReplaceRelicRewards(room))
+        {
+            return false;
+        }
+
         for (int i = 0; i < rewards.Count; i++)
         {
             if (rewards[i] is RelicReward)

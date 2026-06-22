@@ -7,6 +7,8 @@ using MegaCrit.Sts2.Core.Events;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Events;
+using WhatIfRelics.WhatIfRelicsCode.Localization;
 using WhatIfRelics.WhatIfRelicsCode.Relics;
 using WhatIfRelics.WhatIfRelicsCode.Utils;
 
@@ -21,6 +23,7 @@ public static class StartingAncientOptionsPatch
     private static readonly Dictionary<AncientEventModel, List<EventOption>> OriginalOptions = [];
     private static readonly Dictionary<AncientEventModel, LocString> OriginalDescriptions = [];
     private static readonly HashSet<AncientEventModel> SuppressInjection = [];
+    private static readonly HashSet<AncientEventModel> InjectedAncients = [];
 
     [HarmonyTargetMethod]
     private static MethodBase? TargetMethod()
@@ -52,6 +55,7 @@ public static class StartingAncientOptionsPatch
 
         OriginalOptions[ancient] = originalOptions;
         OriginalDescriptions[ancient] = description;
+        InjectedAncients.Add(ancient);
 
         var replacementDescription = new LocString("relics", WhatIfEntryDescriptionKey);
         var replacementOptions = CreateWhatIfOptions(ancient);
@@ -75,7 +79,12 @@ public static class StartingAncientOptionsPatch
             return false;
         }
 
-        if (!WhatIfRelicsSettingsPage.Current.EnableWhatIfRelics)
+        if (InjectedAncients.Contains(ancient))
+        {
+            return false;
+        }
+
+        if (!WhatIfReplacementContext.IsWhatIfSelectionEnabled())
         {
             return false;
         }
@@ -158,6 +167,11 @@ public static class StartingAncientOptionsPatch
 
     private static LocString BuildRelicOptionDescription(RelicModel relic)
     {
+        if (relic is WhatIfRelicModel whatIfRelic)
+        {
+            return WhatIfRelicDescriptionBuilder.BuildLocString(whatIfRelic);
+        }
+
         var description = relic.Description;
         foreach (var dynamicVar in relic.DynamicVars.Values)
         {

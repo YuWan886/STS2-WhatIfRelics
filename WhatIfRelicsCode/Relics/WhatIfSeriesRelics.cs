@@ -27,6 +27,11 @@ public class WhatIfSeriesRelics : WhatIfRelicModel, IWhatIfUniformRelicSource
             return false;
         }
 
+        if (!WhatIfReplacementContext.ShouldReplaceRelicRewards(room))
+        {
+            return false;
+        }
+
         var relics = SevenSinRelics.Value;
         if (relics.Length == 0)
         {

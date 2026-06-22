@@ -22,6 +22,11 @@ public class WhatIfOldCoin : WhatIfRelicModel, IWhatIfUniformRelicSource
             return false;
         }
 
+        if (!WhatIfReplacementContext.ShouldReplaceRelicRewards(room))
+        {
+            return false;
+        }
+
         var coinModel = ModelDb.Relic<OldCoin>();
 
         for (int i = 0; i < rewards.Count; i++)
@@ -36,6 +41,11 @@ public class WhatIfOldCoin : WhatIfRelicModel, IWhatIfUniformRelicSource
     }
 
     public RelicModel GetUniformRelic(IRunState runState)
+    {
+        return ModelDb.Relic<OldCoin>();
+    }
+
+    public RelicModel? GetUniformRelicForHoverTips()
     {
         return ModelDb.Relic<OldCoin>();
     }

@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
 using STS2RitsuLib;
 using STS2RitsuLib.Interop;
+using WhatIfRelics.WhatIfRelicsCode.Networking;
 using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
 namespace WhatIfRelics.WhatIfRelicsCode;
@@ -22,6 +23,7 @@ public static class Entry
         ModTypeDiscoveryHub.RegisterModAssembly(ModId, assembly);
 
         WhatIfRelicsSettingsPage.Register();
+        WhatIfRelicsConfigSync.Register();
 
         Harmony harmony = new(ModId);
         harmony.PatchAll(assembly);

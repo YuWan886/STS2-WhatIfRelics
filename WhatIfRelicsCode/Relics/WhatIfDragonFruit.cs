@@ -22,6 +22,11 @@ public class WhatIfDragonFruit : WhatIfRelicModel, IWhatIfUniformRelicSource
             return false;
         }
 
+        if (!WhatIfReplacementContext.ShouldReplaceRelicRewards(room))
+        {
+            return false;
+        }
+
         var fruitModel = ModelDb.Relic<DragonFruit>();
 
         for (int i = 0; i < rewards.Count; i++)
@@ -36,6 +41,11 @@ public class WhatIfDragonFruit : WhatIfRelicModel, IWhatIfUniformRelicSource
     }
 
     public RelicModel GetUniformRelic(IRunState runState)
+    {
+        return ModelDb.Relic<DragonFruit>();
+    }
+
+    public RelicModel? GetUniformRelicForHoverTips()
     {
         return ModelDb.Relic<DragonFruit>();
     }

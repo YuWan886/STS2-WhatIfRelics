@@ -7,6 +7,8 @@ namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 public interface IWhatIfUniformRelicSource
 {
     RelicModel GetUniformRelic(IRunState runState);
+
+    RelicModel? GetUniformRelicForHoverTips() => null;
 }
 
 
