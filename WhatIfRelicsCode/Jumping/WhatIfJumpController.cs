@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
@@ -27,8 +28,8 @@ internal static partial class WhatIfJumpController
     private const ulong HighChargeMsec = 3000;
     private const ulong MaxChargeMsec = HighChargeMsec;
     private const ulong JumpWindowMsec = 3000;
-    private const int RequiredJumpCount = 30;
     private static readonly AttachedState<CombatRoom, bool> SkipCurrentCombatWithoutRewards = new(() => false);
+    private static readonly ConditionalWeakTable<Node, JumpAnimationState> JumpAnimationStates = [];
     private static JumpRuntimeNode? _runtimeNode;
 
     public static void Register()
@@ -120,11 +121,20 @@ internal static partial class WhatIfJumpController
             return;
         }
 
+        JumpAnimationState animationState = JumpAnimationStates.GetOrCreateValue(node);
+        CaptureBaseTransformIfNeeded(node, animationState);
+        Vector2 currentPosition = GetNodePosition(node);
+        float currentRotation = GetNodeRotation(node);
+        StopActiveJumpAnimation(animationState);
+
         float chargeRatio = Mathf.Clamp((float)(holdDurationMsec / MaxChargeMsec), 0f, 1f);
         float jumpHeight = Mathf.Lerp(BaseJumpHeight, MaxJumpHeight, chargeRatio);
         double totalDuration = Mathf.Lerp((float)BaseJumpDuration, (float)MaxJumpDuration, chargeRatio);
         double riseDuration = totalDuration * 0.42;
         double fallDuration = totalDuration - riseDuration;
+        float currentLift = Mathf.Max(0f, animationState.BasePosition.Y - currentPosition.Y);
+        float peakLift = currentLift + jumpHeight;
+        Vector2 peakPosition = animationState.BasePosition + Vector2.Up * peakLift;
         float rotationAmount = holdDurationMsec switch
         {
             >= HighChargeMsec => -Mathf.Tau,
@@ -133,49 +143,119 @@ internal static partial class WhatIfJumpController
         };
 
         Tween tween = node.CreateTween();
+        animationState.ActiveTween = tween;
         switch (node)
         {
             case Node2D node2D:
             {
-                Vector2 start = node2D.Position;
-                float startRotation = node2D.Rotation;
-                tween.TweenProperty(node2D, "position", start + Vector2.Up * jumpHeight, riseDuration)
+                tween.TweenProperty(node2D, "position", peakPosition, riseDuration)
                     .SetEase(Tween.EaseType.Out)
                     .SetTrans(Tween.TransitionType.Sine);
-                tween.TweenProperty(node2D, "position", start, fallDuration)
+                tween.TweenProperty(node2D, "position", animationState.BasePosition, fallDuration)
                     .SetEase(Tween.EaseType.In)
                     .SetTrans(Tween.TransitionType.Sine);
                 if (!Mathf.IsZeroApprox(rotationAmount))
                 {
                     tween.Parallel()
-                        .TweenProperty(node2D, "rotation", startRotation + rotationAmount, totalDuration)
+                        .TweenProperty(node2D, "rotation", currentRotation + rotationAmount, totalDuration)
                         .SetEase(Tween.EaseType.InOut)
                         .SetTrans(Tween.TransitionType.Sine);
-                    tween.TweenCallback(Callable.From(() => node2D.Rotation = startRotation));
                 }
                 break;
             }
             case Control control:
             {
-                Vector2 start = control.Position;
-                float startRotation = control.Rotation;
-                tween.TweenProperty(control, "position", start + Vector2.Up * jumpHeight, riseDuration)
+                tween.TweenProperty(control, "position", peakPosition, riseDuration)
                     .SetEase(Tween.EaseType.Out)
                     .SetTrans(Tween.TransitionType.Sine);
-                tween.TweenProperty(control, "position", start, fallDuration)
+                tween.TweenProperty(control, "position", animationState.BasePosition, fallDuration)
                     .SetEase(Tween.EaseType.In)
                     .SetTrans(Tween.TransitionType.Sine);
                 if (!Mathf.IsZeroApprox(rotationAmount))
                 {
                     tween.Parallel()
-                        .TweenProperty(control, "rotation", startRotation + rotationAmount, totalDuration)
+                        .TweenProperty(control, "rotation", currentRotation + rotationAmount, totalDuration)
                         .SetEase(Tween.EaseType.InOut)
                         .SetTrans(Tween.TransitionType.Sine);
-                    tween.TweenCallback(Callable.From(() => control.Rotation = startRotation));
                 }
                 break;
             }
         }
+
+        tween.TweenCallback(Callable.From(() => CompleteJumpAnimation(node, animationState)));
+    }
+
+    private static void StopActiveJumpAnimation(JumpAnimationState animationState)
+    {
+        if (animationState.ActiveTween != null && GodotObject.IsInstanceValid(animationState.ActiveTween))
+        {
+            animationState.ActiveTween.Kill();
+        }
+
+        animationState.ActiveTween = null;
+    }
+
+    private static void CaptureBaseTransformIfNeeded(Node node, JumpAnimationState animationState)
+    {
+        if (animationState.HasBaseTransform)
+        {
+            return;
+        }
+
+        switch (node)
+        {
+            case Node2D node2D:
+                animationState.BasePosition = node2D.Position;
+                animationState.BaseRotation = node2D.Rotation;
+                break;
+            case Control control:
+                animationState.BasePosition = control.Position;
+                animationState.BaseRotation = control.Rotation;
+                break;
+        }
+
+        animationState.HasBaseTransform = true;
+    }
+
+    private static Vector2 GetNodePosition(Node node)
+    {
+        return node switch
+        {
+            Node2D node2D => node2D.Position,
+            Control control => control.Position,
+            _ => Vector2.Zero
+        };
+    }
+
+    private static float GetNodeRotation(Node node)
+    {
+        return node switch
+        {
+            Node2D node2D => node2D.Rotation,
+            Control control => control.Rotation,
+            _ => 0f
+        };
+    }
+
+    private static void RestoreBaseTransform(Node node, JumpAnimationState animationState)
+    {
+        switch (node)
+        {
+            case Node2D node2D:
+                node2D.Position = animationState.BasePosition;
+                node2D.Rotation = animationState.BaseRotation;
+                break;
+            case Control control:
+                control.Position = animationState.BasePosition;
+                control.Rotation = animationState.BaseRotation;
+                break;
+        }
+    }
+
+    private static void CompleteJumpAnimation(Node node, JumpAnimationState animationState)
+    {
+        animationState.ActiveTween = null;
+        RestoreBaseTransform(node, animationState);
     }
 
     private static async Task SkipCurrentCombatAsync(CombatRoom room)
@@ -306,7 +386,7 @@ internal static partial class WhatIfJumpController
             relic.SetCurrentJumpCount(_jumpTimes.Count);
             PlayJumpFeedback(owner, holdDurationMsec);
 
-            if (_jumpTimes.Count < RequiredJumpCount)
+            if (_jumpTimes.Count < WhatIfJump.RequiredJumpCount)
             {
                 return;
             }
@@ -328,6 +408,17 @@ internal static partial class WhatIfJumpController
             _jumpTimes.Clear();
             relic?.SetCurrentJumpCount(0);
         }
+    }
+
+    private sealed class JumpAnimationState
+    {
+        public bool HasBaseTransform { get; set; }
+
+        public Vector2 BasePosition { get; set; }
+
+        public float BaseRotation { get; set; }
+
+        public Tween? ActiveTween { get; set; }
     }
 
     [HarmonyPatch(typeof(NGame), nameof(NGame._Input))]

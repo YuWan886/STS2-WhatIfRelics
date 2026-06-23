@@ -6,7 +6,7 @@ namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 [RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfJump")]
 public class WhatIfJump : WhatIfRelicModel
 {
-    private const int RequiredJumpCount = 10;
+    public const int RequiredJumpCount = 30;
     private int _currentJumpCount;
 
     public override bool ShowCounter => true;

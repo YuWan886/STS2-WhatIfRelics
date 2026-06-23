@@ -150,7 +150,7 @@
   "WHAT_IF_RELICS_RELIC_WHAT_IF_CHEAT_DRAW.description": "在每回合开始时，你不再按顺序抽牌，而是改为从抽牌堆中自行选择对应数量的卡加入手牌。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_CHEAT_DRAW.flavor": "牌堆永远偏向懂得做记号的人。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP.title": "假如可以跳跃",
-  "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP.description": "按住[gold]空格[/gold]可以持续跳跃。若你在[blue]3秒[/blue]内跳跃[blue]30[/blue]次，则会直接跳过战斗房间。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP.description": "按下[gold]空格[/gold]可以跳跃。若你在[blue]3秒[/blue]内跳跃[blue]30[/blue]次，则会直接跳过战斗房间。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP.flavor": "地面只是暂时的停留点。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_FAKE_MERCHANT_SHOPS.title": "假如商店只有假商人",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_FAKE_MERCHANT_SHOPS.description": "所有商店房间都会改为进入假商人事件。",
