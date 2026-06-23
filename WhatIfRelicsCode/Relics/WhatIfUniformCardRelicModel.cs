@@ -16,12 +16,18 @@ public abstract class WhatIfUniformCardRelicModel : WhatIfRelicModel
     /// <summary>Predicate selecting which cards this relic restricts the run to.</summary>
     protected abstract bool Matches(CardModel card);
 
+    /// <summary>
+    /// Whether matching cards from the owner's character pool should be preferred before
+    /// considering the global unlocked card pools.
+    /// </summary>
+    protected virtual bool PreferCharacterPoolCandidates(Player player) => true;
+
     private List<CardModel> GetCandidateCards(Player player)
     {
-        // Prefer cards from the character's own card pool. Only fall back to the
-        // global pool set when the character pool yields no matching candidates.
+        // Most WhatIf "Only X" relics stay character-scoped first, but some
+        // replacements intentionally draw from every unlocked card pool.
         var characterPool = player.Character?.CardPool;
-        if (characterPool != null)
+        if (PreferCharacterPoolCandidates(player) && characterPool != null)
         {
             var characterCandidates = characterPool
                 .GetUnlockedCards(player.UnlockState, player.RunState.CardMultiplayerConstraint)
@@ -115,7 +121,6 @@ public abstract class WhatIfUniformCardRelicModel : WhatIfRelicModel
         return true;
     }
 }
-
 
 
 

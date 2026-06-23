@@ -3,10 +3,13 @@ using System.Security.Cryptography;
 using System.Text;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.DevConsole;
 using MegaCrit.Sts2.Core.Events;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Rooms;
+using MegaCrit.Sts2.Core.Runs;
 using WhatIfRelics.WhatIfRelicsCode.Localization;
 using WhatIfRelics.WhatIfRelicsCode.Relics;
 using WhatIfRelics.WhatIfRelicsCode.Utils;
@@ -21,6 +24,7 @@ public static class StartingAncientOptionsPatch
 
     private static readonly Dictionary<AncientEventModel, List<EventOption>> OriginalOptions = [];
     private static readonly Dictionary<AncientEventModel, LocString> OriginalDescriptions = [];
+    private static readonly Dictionary<AncientEventModel, int> RefreshCounts = [];
     private static readonly HashSet<AncientEventModel> SuppressInjection = [];
     private static readonly HashSet<AncientEventModel> InjectedAncients = [];
 
@@ -54,21 +58,10 @@ public static class StartingAncientOptionsPatch
 
         OriginalOptions[ancient] = originalOptions;
         OriginalDescriptions[ancient] = description;
+        RefreshCounts[ancient] = 0;
         InjectedAncients.Add(ancient);
-
-        var replacementDescription = new LocString("relics", WhatIfEntryDescriptionKey);
-        var replacementOptions = CreateWhatIfOptions(ancient);
         Entry.Logger.Info($"[StartingAncientOptionsPatch] Injecting WhatIf start options for {ancient.Id.Entry}");
-
-        SuppressInjection.Add(ancient);
-        try
-        {
-            SetEventState(ancient, replacementDescription, replacementOptions);
-        }
-        finally
-        {
-            SuppressInjection.Remove(ancient);
-        }
+        ShowWhatIfOptions(ancient);
     }
 
     private static bool ShouldInjectWhatIfOptions(AncientEventModel ancient)
@@ -138,9 +131,10 @@ public static class StartingAncientOptionsPatch
     {
         var candidates = GetWhatIfCandidates(ancient);
         var seed = ancient.Owner?.RunState?.Rng.StringSeed ?? string.Empty;
+        var refreshCount = RefreshCounts.TryGetValue(ancient, out var value) ? value : 0;
 
         return candidates
-            .OrderBy(relic => ComputeDeterministicSelectionKey(seed, relic.Id.Entry))
+            .OrderBy(relic => ComputeDeterministicSelectionKey(seed, relic.Id.Entry, refreshCount))
             .ThenBy(static relic => relic.Id.Entry, StringComparer.Ordinal)
             .Take(3)
             .ToList();
@@ -180,11 +174,86 @@ public static class StartingAncientOptionsPatch
         return description;
     }
 
-    private static ulong ComputeDeterministicSelectionKey(string seed, string relicId)
+    private static ulong ComputeDeterministicSelectionKey(string seed, string relicId, int refreshCount)
     {
-        var bytes = Encoding.UTF8.GetBytes($"{seed}|WHAT_IF_RELICS_NEOW|{relicId}");
+        var bytes = Encoding.UTF8.GetBytes($"{seed}|WHAT_IF_RELICS_NEOW|{refreshCount}|{relicId}");
         var hash = SHA256.HashData(bytes);
         return BitConverter.ToUInt64(hash, 0);
+    }
+
+    internal static CmdResult RefreshCurrentWhatIfOptions()
+    {
+        if (RunManager.Instance?.State?.CurrentRoom is not EventRoom eventRoom)
+        {
+            return new CmdResult(success: false, "You are not currently in an event room.");
+        }
+
+        if (eventRoom.LocalMutableEvent is not AncientEventModel ancient)
+        {
+            return new CmdResult(success: false, "The current event is not an ancient event.");
+        }
+
+        if (!OriginalOptions.ContainsKey(ancient))
+        {
+            return new CmdResult(success: false, "You are not currently on the What If relic selection page.");
+        }
+
+        var candidates = GetWhatIfCandidates(ancient);
+        if (candidates.Count <= 3)
+        {
+            return new CmdResult(success: false, "There are fewer than 4 candidate What If relics, so a different set of 3 options cannot be generated.");
+        }
+
+        var currentIds = GetDisplayedRelicIds(ancient);
+        var refreshCount = RefreshCounts.TryGetValue(ancient, out var value) ? value : 0;
+        var maxAttempts = Math.Max(candidates.Count * 2, 8);
+
+        for (var attempt = 1; attempt <= maxAttempts; attempt++)
+        {
+            RefreshCounts[ancient] = refreshCount + attempt;
+            var nextIds = GetSelectedRelicIds(ancient);
+            if (currentIds.SetEquals(nextIds))
+            {
+                continue;
+            }
+
+            ShowWhatIfOptions(ancient);
+            return new CmdResult(success: true, $"Refreshed What If relic options. Refresh round: {RefreshCounts[ancient]}.");
+        }
+
+        RefreshCounts[ancient] = refreshCount;
+        return new CmdResult(success: false, "Failed to find a different set of What If relic options.");
+    }
+
+    private static void ShowWhatIfOptions(AncientEventModel ancient)
+    {
+        var replacementDescription = new LocString("relics", WhatIfEntryDescriptionKey);
+        var replacementOptions = CreateWhatIfOptions(ancient);
+
+        SuppressInjection.Add(ancient);
+        try
+        {
+            SetEventState(ancient, replacementDescription, replacementOptions);
+        }
+        finally
+        {
+            SuppressInjection.Remove(ancient);
+        }
+    }
+
+    private static HashSet<string> GetDisplayedRelicIds(AncientEventModel ancient)
+    {
+        return ancient.CurrentOptions
+            .Where(static option => option.Relic != null)
+            .Select(static option => option.Relic!.Id.Entry)
+            .ToHashSet(StringComparer.Ordinal);
+    }
+
+    private static HashSet<string> GetSelectedRelicIds(AncientEventModel ancient)
+    {
+        return SelectDeterministicWhatIfRelics(ancient)
+            .Select(static relic => relic.Id.Entry)
+            .ToHashSet(StringComparer.Ordinal);
     }
 
     private static void RestoreNormalOptions(AncientEventModel ancient)
@@ -212,5 +281,6 @@ public static class StartingAncientOptionsPatch
     {
         OriginalOptions.Remove(ancient);
         OriginalDescriptions.Remove(ancient);
+        RefreshCounts.Remove(ancient);
     }
 }

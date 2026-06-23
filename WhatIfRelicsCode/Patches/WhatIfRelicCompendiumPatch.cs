@@ -147,7 +147,7 @@ internal static class WhatIfRelicCompendiumPatch
         var whatIfRelics = pool.AllRelics
             .Select(static relic => relic.CanonicalInstance)
             .DistinctBy(static relic => relic.Id)
-            .OrderBy(static relic => relic.Title.GetFormattedText(), LocManager.Instance.StringComparer)
+            .OrderBy(GetSafeRelicTitle, LocManager.Instance.StringComparer)
             .ToArray();
 
         if (whatIfRelics.Length == 0)
@@ -215,7 +215,7 @@ internal static class WhatIfRelicCompendiumPatch
                 continue;
             }
 
-            if (HasExistingSubcategory(ancientCategory, ancient.Title.GetFormattedText()))
+            if (HasExistingSubcategory(ancientCategory, GetSafeFormattedText(ancient.Title, ancient.Id)))
             {
                 continue;
             }
@@ -225,7 +225,7 @@ internal static class WhatIfRelicCompendiumPatch
                 .OfType<RelicModel>()
                 .Where(static relic => relic is WhatIfRelicModel)
                 .DistinctBy(static relic => relic.Id)
-                .OrderBy(static relic => relic.Title.GetFormattedText(), LocManager.Instance.StringComparer)
+                .OrderBy(GetSafeRelicTitle, LocManager.Instance.StringComparer)
                 .ToArray();
             if (relics.Length == 0)
             {
@@ -373,6 +373,24 @@ internal static class WhatIfRelicCompendiumPatch
     private static bool IsManagedWhatIfCategory(NRelicCollectionCategory category)
     {
         return ManagedWhatIfCategoryMarkers.TryGetValue(category, out _);
+    }
+
+    private static string GetSafeRelicTitle(RelicModel relic)
+    {
+        return GetSafeFormattedText(relic.Title, relic.Id);
+    }
+
+    private static string GetSafeFormattedText(LocString locString, ModelId fallbackId)
+    {
+        try
+        {
+            return locString.GetFormattedText();
+        }
+        catch (Exception ex) when (ex is LocException || ex.InnerException is LocException)
+        {
+            Entry.Logger.Warn($"[WhatIfRelicCompendiumPatch] Missing localization for {fallbackId.Entry}; using fallback title.");
+            return fallbackId.Entry;
+        }
     }
 
     private static WhatIfRelicPool? TryGetWhatIfPool()

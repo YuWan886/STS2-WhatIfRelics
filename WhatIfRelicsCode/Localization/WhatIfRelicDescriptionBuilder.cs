@@ -37,31 +37,16 @@ internal static class WhatIfRelicDescriptionBuilder
 
     public static string Build(WhatIfRelicModel relic)
     {
-        string? effect = BuildEffectDescription(relic);
+        string description = BuildOriginalDynamicDescription(relic).GetFormattedText();
         string? scope = BuildScopeDescription(relic);
-
-        if (string.IsNullOrWhiteSpace(effect))
-        {
-            return BuildOriginalDynamicDescription(relic).GetFormattedText();
-        }
-
-        if (string.IsNullOrWhiteSpace(scope))
-        {
-            return effect;
-        }
-
-        return effect + "\n" + scope;
+        return AppendScopeDescription(description, scope);
     }
 
     public static string BuildOptionText(WhatIfRelicModel relic)
     {
-        string? effect = BuildEffectDescription(relic);
-        if (!string.IsNullOrWhiteSpace(effect))
-        {
-            return effect;
-        }
-
-        return TakeFirstSentence(BuildOriginalDynamicDescription(relic).GetFormattedText());
+        string description = TakeFirstSentence(BuildOriginalDynamicDescription(relic).GetFormattedText());
+        string? scope = BuildScopeDescription(relic);
+        return AppendScopeDescription(description, scope);
     }
 
     private static string WrapCentered(string text)
@@ -121,21 +106,6 @@ internal static class WhatIfRelicDescriptionBuilder
             WhatIfOldCoin oldCoin => BuildUniformRelicEffect(oldCoin),
             WhatIfTenYearBamboo => BuildTenYearBambooEffect(),
             WhatIfWhiteStar whiteStar => BuildUniformRelicEffect(whiteStar),
-            WhatIfNineLives => GetText(
-                zhs: "当你将受到致命伤害时，改为存活且生命值变为[gold]1[/gold]。每局最多触发[gold]9[/gold]次。",
-                eng: "When you would take fatal damage, survive instead and set your HP to [gold]1[/gold]. Triggers up to [gold]9[/gold] times per run."),
-            WhatIfSellCards => GetText(
-                zhs: "在[gold]商店[/gold]中可以右键牌组里的卡牌出售，售价为该卡商店购买价的[gold]50%[/gold]。",
-                eng: "In [gold]shops[/gold], you can right-click cards in your deck to sell them for [gold]50%[/gold] of their shop buy price."),
-            WhatIfInfinitePotions => GetText(
-                zhs: "每当你拾取或使用药水后，都会用随机药水填满所有空药水栏位。",
-                eng: "Whenever you procure or use a potion, fill all empty potion slots with random potions."),
-            WhatIfSoloUpgrade => GetText(
-                zhs: "每场战斗结束后，随机升级牌组中的[gold]1[/gold]张卡牌。",
-                eng: "After each combat, randomly upgrade [gold]1[/gold] card in your deck."),
-            WhatIfGoSecond => GetText(
-                zhs: "每场战斗开始时，在玩家抽牌之后、首个玩家出牌阶段之前，敌人会立即先执行一次行动。",
-                eng: "At the start of each combat, after the player draws but before the first player play phase, enemies immediately take one action."),
             _ => null
         };
     }
@@ -160,71 +130,67 @@ internal static class WhatIfRelicDescriptionBuilder
         List<string> scopes = [];
         if (affectsStartingDeck && WhatIfReplacementContext.ShouldReplaceStartingDeck())
         {
-            scopes.Add(GetText(
-                zhs: "拾起时替换初始手牌。",
-                eng: "Replaces your starting deck when obtained."));
+            scopes.Add(GetText(zhs: "初始手牌", eng: "starting deck"));
         }
 
-        var rewardScopes = new List<string>();
         if (affectsCardRewards && WhatIfReplacementContext.ShouldReplaceCardRewards(CardCreationSource.Encounter))
         {
-            rewardScopes.Add(GetText(zhs: "卡牌奖励", eng: "card rewards"));
+            scopes.Add(GetText(zhs: "卡牌奖励", eng: "card rewards"));
         }
 
         if (affectsRelicRewards && WhatIfReplacementContext.ShouldReplaceRelicRewards(null))
         {
-            rewardScopes.Add(GetText(zhs: "遗物奖励", eng: "relic rewards"));
+            scopes.Add(GetText(zhs: "遗物奖励", eng: "relic rewards"));
         }
 
         if (affectsPotionRewards && WhatIfReplacementContext.ShouldReplacePotionRewards())
         {
-            rewardScopes.Add(GetText(zhs: "药水奖励", eng: "potion rewards"));
+            scopes.Add(GetText(zhs: "药水奖励", eng: "potion rewards"));
         }
 
-        if (rewardScopes.Count > 0)
-        {
-            scopes.Add(FormatScopeLine(
-                rewardScopes,
-                zhsPrefix: "替换",
-                zhsSuffix: "。",
-                engPrefix: "Also replaces ",
-                engSuffix: "."));
-        }
-
-        var merchantScopes = new List<string>();
         if (affectsCardRewards && WhatIfReplacementContext.ShouldReplaceCardRewards(CardCreationSource.Shop))
         {
-            merchantScopes.Add(GetText(zhs: "商店卡牌", eng: "shop cards"));
+            scopes.Add(GetText(zhs: "商店卡牌", eng: "shop cards"));
         }
 
         if (affectsRelicRewards && WhatIfReplacementContext.ShouldReplaceShopRelics())
         {
-            merchantScopes.Add(GetText(zhs: "商店遗物", eng: "shop relics"));
+            scopes.Add(GetText(zhs: "商店遗物", eng: "shop relics"));
         }
 
         if (affectsPotionRewards && WhatIfReplacementContext.ShouldReplaceShopPotions())
         {
-            merchantScopes.Add(GetText(zhs: "商店药水", eng: "shop potions"));
-        }
-
-        if (merchantScopes.Count > 0)
-        {
-            scopes.Add(FormatScopeLine(
-                merchantScopes,
-                zhsPrefix: "替换",
-                zhsSuffix: "。",
-                engPrefix: "Also replaces ",
-                engSuffix: "."));
+            scopes.Add(GetText(zhs: "商店药水", eng: "shop potions"));
         }
 
         if (affectsRelicRewards && WhatIfReplacementContext.ShouldReplaceTreasureRelics())
         {
-            scopes.Add(GetText(
-                zhs: "替换宝箱遗物。",
-                eng: "Also replaces treasure chest relics."));
+            scopes.Add(GetText(zhs: "宝箱遗物", eng: "treasure chest relics"));
         }
 
-        return scopes.Count == 0 ? null : string.Join("\n", scopes);
+        if (scopes.Count == 0)
+        {
+            return null;
+        }
+
+        return GetText(
+            zhs: "替换范围：" + string.Join("、", scopes) + "。",
+            eng: "Replacement scope: " + JoinEnglish(scopes) + ".");
+    }
+
+    private static string AppendScopeDescription(string description, string? scope)
+    {
+        if (string.IsNullOrWhiteSpace(scope))
+        {
+            return description;
+        }
+
+        if (string.IsNullOrWhiteSpace(description))
+        {
+            return scope;
+        }
+
+        return description + "\n" + scope;
     }
 
     private static string BuildUniformCardEffect(WhatIfUniformCardRelicModel relic)
