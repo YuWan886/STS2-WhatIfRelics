@@ -149,10 +149,19 @@
   "WHAT_IF_RELICS_RELIC_WHAT_IF_CHEAT_DRAW.title": "假如我出老千",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_CHEAT_DRAW.description": "在每回合开始时，你不再按顺序抽牌，而是改为从抽牌堆中自行选择对应数量的卡加入手牌。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_CHEAT_DRAW.flavor": "牌堆永远偏向懂得做记号的人。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP.title": "假如可以跳跃",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP.description": "按住[gold]空格[/gold]可以持续跳跃。若你在[blue]3秒[/blue]内跳跃[blue]30[/blue]次，则会直接跳过战斗房间。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP.flavor": "地面只是暂时的停留点。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_FAKE_MERCHANT_SHOPS.title": "假如商店只有假商人",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_FAKE_MERCHANT_SHOPS.description": "所有商店房间都会改为进入假商人事件。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_FAKE_MERCHANT_SHOPS.flavor": "每一笔交易背后，都藏着一张不怀好意的笑脸。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_TREASURE_ROOMS.title": "假如只有宝箱房间",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_TREASURE_ROOMS.description": "地图上所有房间变为宝箱房间，除了先古和Boss房间。",
-  "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_TREASURE_ROOMS.flavor": "条条大路都通宝箱。"
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_TREASURE_ROOMS.flavor": "条条大路都通宝箱。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_ONE_PATH.title": "假如只有一条路",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_ONE_PATH.description": "拾起时，将每一幕的地图替换为一条直道。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_ONE_PATH.flavor": "没有岔路，也不需要犹豫。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_WIDER_RANDOM_MAP.title": "假如地图变宽了",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_WIDER_RANDOM_MAP.description": "每一幕都会重新随机生成一张更宽的地图，拥有显著更多的房间节点与路线选择。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_WIDER_RANDOM_MAP.flavor": "别沿着旧路走了，干脆把整张地图拓宽。"
 }

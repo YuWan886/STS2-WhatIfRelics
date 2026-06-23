@@ -3,6 +3,7 @@ using HarmonyLib;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
 using STS2RitsuLib;
+using WhatIfRelics.WhatIfRelicsCode.Jumping;
 using WhatIfRelics.WhatIfRelicsCode.Relics;
 using WhatIfRelics.WhatIfRelicsCode.Networking;
 using Logger = MegaCrit.Sts2.Core.Logging.Logger;
@@ -24,6 +25,7 @@ public static class Entry
 
         WhatIfRelicsSettingsPage.Register();
         WhatIfRelicsConfigSync.Register();
+        WhatIfJumpController.Register();
 
         Harmony harmony = new(ModId);
         harmony.PatchAll(assembly);

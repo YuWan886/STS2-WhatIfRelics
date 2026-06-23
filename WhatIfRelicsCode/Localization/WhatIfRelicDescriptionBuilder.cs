@@ -103,6 +103,7 @@ internal static class WhatIfRelicDescriptionBuilder
                 fallbackZhsTitle: "心之钢",
                 fallbackEngTitle: "Heartsteel"),
             WhatIfHistoryCourse historyCourse => BuildUniformRelicEffect(historyCourse),
+            WhatIfJump => BuildOriginalDynamicDescription(relic).GetFormattedText(),
             WhatIfOldCoin oldCoin => BuildUniformRelicEffect(oldCoin),
             WhatIfTenYearBamboo => BuildTenYearBambooEffect(),
             WhatIfWhiteStar whiteStar => BuildUniformRelicEffect(whiteStar),

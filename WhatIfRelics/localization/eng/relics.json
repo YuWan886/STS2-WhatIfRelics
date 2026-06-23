@@ -149,10 +149,19 @@
   "WHAT_IF_RELICS_RELIC_WHAT_IF_CHEAT_DRAW.title": "What If I Cheated",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_CHEAT_DRAW.description": "At the start of each turn, instead of drawing in order, choose that many cards from your draw pile and put them into your hand.",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_CHEAT_DRAW.flavor": "The deck obeys whoever knows the marks.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP.title": "What If I Could Jump",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP.description": "Hold [gold]Space[/gold] to keep jumping. If you jump [blue]30[/blue] times within [blue]3 seconds[/blue], you immediately skip the combat room.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP.flavor": "The ground is only a suggestion.",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_FAKE_MERCHANT_SHOPS.title": "What If Shops Were Only Fake Merchant",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_FAKE_MERCHANT_SHOPS.description": "All shop rooms are replaced with the Fake Merchant event.",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_FAKE_MERCHANT_SHOPS.flavor": "Every bargain hides a grin with too many teeth.",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_TREASURE_ROOMS.title": "What If There Were Only Treasure Rooms",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_TREASURE_ROOMS.description": "All rooms on the map become Treasure rooms, except for Ancient and Boss rooms.",
-  "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_TREASURE_ROOMS.flavor": "Every path glitters."
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_TREASURE_ROOMS.flavor": "Every path glitters.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_ONE_PATH.title": "What If There Were Only One Path",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_ONE_PATH.description": "When obtained, replace the map of every act with a single straight path.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_ONE_PATH.flavor": "No forks, no hesitation.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_WIDER_RANDOM_MAP.title": "What If the Map Grew Wider",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_WIDER_RANDOM_MAP.description": "Each act generates a brand-new wider random map with significantly more room nodes and route choices.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_WIDER_RANDOM_MAP.flavor": "Do not follow the old road. Lay down a larger one."
 }
