@@ -8,12 +8,14 @@ using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Helpers;
+using MegaCrit.Sts2.Core.Multiplayer.Game;
 using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using STS2RitsuLib;
 using STS2RitsuLib.Utils;
+using WhatIfRelics.WhatIfRelicsCode.Networking;
 using WhatIfRelics.WhatIfRelicsCode.Relics;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Jumping;
@@ -31,14 +33,45 @@ internal static partial class WhatIfJumpController
     private static readonly AttachedState<CombatRoom, bool> SkipCurrentCombatWithoutRewards = new(() => false);
     private static readonly ConditionalWeakTable<Node, JumpAnimationState> JumpAnimationStates = [];
     private static JumpRuntimeNode? _runtimeNode;
+    private static INetGameService? _registeredNetService;
 
     public static void Register()
     {
+        EnsureNetRegistered();
         RitsuLibFramework.SubscribeLifecycle<GameReadyEvent>(evt =>
         {
             EnsureRuntimeNode(evt.Game);
         });
+        RitsuLibFramework.SubscribeLifecycle<RunStartedEvent>(_ =>
+        {
+            EnsureNetRegistered();
+        }, replayCurrentState: false);
+        RitsuLibFramework.SubscribeLifecycle<CombatStartingEvent>(_ =>
+        {
+            EnsureNetRegistered();
+        }, replayCurrentState: false);
         RitsuLibFramework.SubscribeLifecycle<CombatEndedEvent>(_ => _runtimeNode?.ResetForRoomChange());
+    }
+
+    private static void EnsureNetRegistered()
+    {
+        INetGameService? netService = RunManager.Instance?.NetService;
+        if (_registeredNetService == netService)
+        {
+            return;
+        }
+
+        if (_registeredNetService != null)
+        {
+            _registeredNetService.UnregisterMessageHandler<WhatIfJumpFeedbackMessage>(HandleJumpFeedbackMessage);
+        }
+
+        if (netService != null)
+        {
+            netService.RegisterMessageHandler<WhatIfJumpFeedbackMessage>(HandleJumpFeedbackMessage);
+        }
+
+        _registeredNetService = netService;
     }
 
     private static void EnsureRuntimeNode(NGame game)
@@ -112,6 +145,42 @@ internal static partial class WhatIfJumpController
         {
             PlayNodeJump(creatureNode.Visuals, holdDurationMsec);
         }
+    }
+
+    private static void BroadcastJumpFeedback(Player owner, double holdDurationMsec)
+    {
+        EnsureNetRegistered();
+
+        if (_registeredNetService is not { IsConnected: true })
+        {
+            return;
+        }
+
+        _registeredNetService.SendMessage(new WhatIfJumpFeedbackMessage
+        {
+            PlayerNetId = owner.NetId,
+            HoldDurationMsec = (int)Math.Round(holdDurationMsec)
+        });
+    }
+
+    private static void HandleJumpFeedbackMessage(WhatIfJumpFeedbackMessage message, ulong senderId)
+    {
+        IRunState? runState = RunManager.Instance?.DebugOnlyGetState();
+        Player? localPlayer = runState == null ? null : LocalContext.GetMe(runState);
+        if (localPlayer?.NetId == message.PlayerNetId)
+        {
+            return;
+        }
+
+        CombatState? combatState = CombatManager.Instance?.DebugOnlyGetState();
+        Player? player = combatState?.GetPlayer(message.PlayerNetId) ?? runState?.Players.FirstOrDefault(p => p.NetId == message.PlayerNetId);
+        if (player?.Creature == null)
+        {
+            Entry.Logger.VeryDebug($"WhatIfJump ignored synced jump feedback from {senderId}: player {message.PlayerNetId} not found.");
+            return;
+        }
+
+        PlayJumpFeedback(player, Math.Max(0, message.HoldDurationMsec));
     }
 
     private static void PlayNodeJump(Node node, double holdDurationMsec)
@@ -385,6 +454,7 @@ internal static partial class WhatIfJumpController
             _jumpTimes.Enqueue(now);
             relic.SetCurrentJumpCount(_jumpTimes.Count);
             PlayJumpFeedback(owner, holdDurationMsec);
+            BroadcastJumpFeedback(owner, holdDurationMsec);
 
             if (_jumpTimes.Count < WhatIfJump.RequiredJumpCount)
             {
