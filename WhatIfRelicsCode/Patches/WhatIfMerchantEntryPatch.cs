@@ -4,12 +4,17 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Saves;
+using System.Runtime.CompilerServices;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Patches;
 
 [HarmonyPatch]
 internal static class WhatIfMerchantEntryPatch
 {
+    private const string HextechModId = "HextechRunes";
+    private const string HextechRandomForgeShopRelicTypeName = "HextechRunes.RandomForgeShopRelic";
+    private static readonly ConditionalWeakTable<MerchantRelicEntry, Marker> HextechMerchantEntries = new();
+
     private static readonly AccessTools.FieldRef<MerchantEntry, Player> PlayerField =
         AccessTools.FieldRefAccess<MerchantEntry, Player>("_player");
 
@@ -21,6 +26,17 @@ internal static class WhatIfMerchantEntryPatch
 
     private static readonly AccessTools.FieldRef<PotionReward, PotionModel?> PotionRewardModelField =
         AccessTools.FieldRefAccess<PotionReward, PotionModel?>("<Potion>k__BackingField");
+
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(MerchantRelicEntry), MethodType.Constructor, typeof(RelicModel), typeof(Player))]
+    private static void MerchantRelicEntry_Constructor_Postfix(MerchantRelicEntry __instance, RelicModel relic)
+    {
+        if (IsHextechMerchantRelic(relic))
+        {
+            HextechMerchantEntries.GetValue(__instance, static _ => new Marker());
+            Entry.Logger.Info($"[WhatIfMerchantEntryPatch] Marked Hextech merchant relic entry: type={relic.GetType().FullName} id={relic.Id.Entry}");
+        }
+    }
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(MerchantRelicEntry), nameof(MerchantRelicEntry.CalcCost))]
@@ -39,6 +55,15 @@ internal static class WhatIfMerchantEntryPatch
         }
 
         RelicModel? currentModel = MerchantRelicModelField(__instance);
+        if (HextechMerchantEntries.TryGetValue(__instance, out _) || IsHextechMerchantRelic(currentModel))
+        {
+            if (currentModel != null)
+            {
+                Entry.Logger.Info($"[WhatIfMerchantEntryPatch] Skipped Hextech merchant relic replacement: type={currentModel.GetType().FullName} id={currentModel.Id.Entry}");
+            }
+            return;
+        }
+
         RelicModel replacement = source.GetUniformRelic(player.RunState).CanonicalInstance;
         if (currentModel?.CanonicalInstance?.Id == replacement.Id)
         {
@@ -97,4 +122,29 @@ internal static class WhatIfMerchantEntryPatch
         PotionModel replacement = source.GetUniformPotion(player.RunState).ToMutable();
         PotionRewardModelField(__instance) = replacement;
     }
+
+    private static bool IsHextechMerchantRelic(RelicModel? relic)
+    {
+        if (relic == null)
+        {
+            return false;
+        }
+
+        string? typeName = relic.GetType().FullName;
+        if (string.Equals(typeName, HextechRandomForgeShopRelicTypeName, StringComparison.Ordinal))
+        {
+            return true;
+        }
+
+        string? canonicalTypeName = relic.CanonicalInstance?.GetType().FullName;
+        if (string.Equals(canonicalTypeName, HextechRandomForgeShopRelicTypeName, StringComparison.Ordinal))
+        {
+            return true;
+        }
+
+        ModelId modelId = relic.CanonicalInstance?.Id ?? relic.Id;
+        return string.Equals(modelId.Category, HextechModId, StringComparison.Ordinal);
+    }
+
+    private sealed class Marker;
 }
