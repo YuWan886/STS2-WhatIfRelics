@@ -163,5 +163,11 @@
   "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_ONE_PATH.flavor": "No forks, no hesitation.",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_WIDER_RANDOM_MAP.title": "What If the Map Grew Wider",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_WIDER_RANDOM_MAP.description": "Each act generates a brand-new wider random map with significantly more room nodes and route choices.",
-  "WHAT_IF_RELICS_RELIC_WHAT_IF_WIDER_RANDOM_MAP.flavor": "Do not follow the old road. Lay down a larger one."
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_WIDER_RANDOM_MAP.flavor": "Do not follow the old road. Lay down a larger one.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_ALL_ENEMIES_CAN_STEAL.title": "What If All Enemies Could Steal",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_ALL_ENEMIES_CAN_STEAL.description": "Whenever an enemy attacks you, it steals 1 card from your draw or discard pile. Defeat that enemy to get its stolen cards back.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_ALL_ENEMIES_CAN_STEAL.flavor": "They all learned the same dirty trick.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_I_ADAPT_TO_EVERYTHING.title": "What If I Could Adapt to Everything",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_I_ADAPT_TO_EVERYTHING.description": "You gradually adapt to attacks from the same enemy. In combat, a normal enemy's 4th attack, an elite's 7th, and a boss's 12th against you deal 0 damage; earlier repeats are reduced proportionally, and multi-hit attacks count once. Also, after you gain the same debuff 5 times in a run, you become immune to that debuff for the rest of the run.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_I_ADAPT_TO_EVERYTHING.flavor": "Nothing stays unfamiliar forever."
 }
