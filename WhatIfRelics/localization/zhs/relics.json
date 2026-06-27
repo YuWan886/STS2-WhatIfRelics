@@ -152,6 +152,9 @@
   "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP.title": "假如可以跳跃",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP.description": "按下[gold]空格[/gold]可以跳跃。若你在[blue]3秒[/blue]内跳跃[blue]30[/blue]次，则会直接跳过战斗房间。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP.flavor": "地面只是暂时的停留点。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP_SLASH.title": "假如可以跳劈",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP_SLASH.description": "按下[gold]空格[/gold]可以跳跃。每次跳跃时，有[blue]5%[/blue]的概率获得1层[gold]暴击[/gold]。每回合最多以这种方式获得[blue]2[/blue]次暴击。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP_SLASH.flavor": "跳起来，顺手把伤害也抡上去。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_FAKE_MERCHANT_SHOPS.title": "假如商店只有假商人",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_FAKE_MERCHANT_SHOPS.description": "所有商店房间都会改为进入假商人事件。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_ONLY_FAKE_MERCHANT_SHOPS.flavor": "每一笔交易背后，都藏着一张不怀好意的笑脸。",
@@ -167,7 +170,10 @@
   "WHAT_IF_RELICS_RELIC_WHAT_IF_ALL_ENEMIES_CAN_STEAL.title": "假如所有敌人都会偷窃",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_ALL_ENEMIES_CAN_STEAL.description": "每当一个敌人攻击你时，它能按优先级从你的抽牌堆或弃牌堆中偷走1张卡牌。\n击败该敌人后，拿回它偷走的卡牌。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_ALL_ENEMIES_CAN_STEAL.flavor": "它们全学会了这套脏手法。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_I_AM_TRANSPARENT.title": "假如我是小透明",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_I_AM_TRANSPARENT.description": "只要你在本场战斗中没有主动攻击，敌人的攻击就不会以你为目标。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_I_AM_TRANSPARENT.flavor": "看不见我，看不见我。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_I_ADAPT_TO_EVERYTHING.title": "假如我能适应万物",
-  "WHAT_IF_RELICS_RELIC_WHAT_IF_I_ADAPT_TO_EVERYTHING.description": "你会逐渐适应同一个敌人对你的攻击。在战斗中，普通敌人的第4次攻击、精英敌人的第7次攻击、Boss的第12次攻击将对你造成0伤害；在这之前会按比例递减，多段攻击只算1次。\n此外，当你在一局中获得同一种负面效果5次后，余下本局将免疫该负面效果。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_I_ADAPT_TO_EVERYTHING.description": "你会逐渐适应同一个敌人对你的攻击。在战斗中，普通敌人的第4次攻击、精英敌人的第7次攻击、Boss的第12次攻击之后将对你造成0伤害；在这之前会按比例递减，多段攻击只算1次。\n此外，当你在一局中获得同一种负面效果5次后，余下本局将免疫该负面效果。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_I_ADAPT_TO_EVERYTHING.flavor": "再陌生的伤害，最终也会变得熟悉。"
 }

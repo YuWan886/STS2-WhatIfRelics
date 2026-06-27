@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Multiplayer;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Multiplayer.Game;
@@ -14,6 +15,7 @@ using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using STS2RitsuLib;
+using STS2RitsuLib.Networking.ManagedActions;
 using STS2RitsuLib.Utils;
 using WhatIfRelics.WhatIfRelicsCode.Networking;
 using WhatIfRelics.WhatIfRelicsCode.Relics;
@@ -31,12 +33,21 @@ internal static partial class WhatIfJumpController
     private const ulong MaxChargeMsec = HighChargeMsec;
     private const ulong JumpWindowMsec = 3000;
     private static readonly AttachedState<CombatRoom, bool> SkipCurrentCombatWithoutRewards = new(() => false);
+    private static readonly RitsuLibManagedNetActionDescriptor<JumpSlashCriticalActionPayload> JumpSlashCriticalDescriptor =
+        new(
+            Entry.ModId,
+            "WhatIfJumpSlashGrantCritical",
+            static _ => [],
+            static _ => default,
+            static context => ExecuteJumpSlashCriticalAsync(context),
+            GameActionType.CombatPlayPhaseOnly);
     private static readonly ConditionalWeakTable<Node, JumpAnimationState> JumpAnimationStates = [];
     private static JumpRuntimeNode? _runtimeNode;
     private static INetGameService? _registeredNetService;
 
     public static void Register()
     {
+        RitsuLibManagedNetActions.Register(JumpSlashCriticalDescriptor);
         EnsureNetRegistered();
         RitsuLibFramework.SubscribeLifecycle<GameReadyEvent>(evt =>
         {
@@ -88,11 +99,16 @@ internal static partial class WhatIfJumpController
         game.AddChild(_runtimeNode);
     }
 
-    private static bool TryGetLocalJumpRelic(IRunState? runState, out Player? owner, out WhatIfJump? relic)
+    private static bool TryGetLocalJumpContext(
+        IRunState? runState,
+        out Player? owner,
+        out WhatIfJump? jumpRelic,
+        out WhatIfJumpSlash? jumpSlashRelic)
     {
         owner = null;
-        relic = null;
-        if (runState == null || !WhatIfJump.HasJumpRelic(runState))
+        jumpRelic = null;
+        jumpSlashRelic = null;
+        if (runState == null || (!WhatIfJump.HasJumpRelic(runState) && !WhatIfJumpSlash.HasJumpSlashRelic(runState)))
         {
             return false;
         }
@@ -111,14 +127,16 @@ internal static partial class WhatIfJumpController
             return false;
         }
 
-        relic = owner.GetRelic<WhatIfJump>();
-        return relic != null;
+        jumpRelic = owner.GetRelic<WhatIfJump>();
+        jumpSlashRelic = owner.GetRelic<WhatIfJumpSlash>();
+        return jumpRelic != null || jumpSlashRelic != null;
     }
 
     private static bool TryGetActiveCombatContext(
         out IRunState? runState,
         out Player? owner,
-        out WhatIfJump? relic,
+        out WhatIfJump? jumpRelic,
+        out WhatIfJumpSlash? jumpSlashRelic,
         out CombatRoom? room)
     {
         runState = RunManager.Instance?.DebugOnlyGetState();
@@ -128,10 +146,11 @@ internal static partial class WhatIfJumpController
             !CombatManager.Instance.IsInProgress ||
             CombatManager.Instance.IsEnding ||
             CombatManager.Instance.PlayerActionsDisabled ||
-            !TryGetLocalJumpRelic(runState, out owner, out relic))
+            !TryGetLocalJumpContext(runState, out owner, out jumpRelic, out jumpSlashRelic))
         {
             owner = null;
-            relic = null;
+            jumpRelic = null;
+            jumpSlashRelic = null;
             room = null;
             return false;
         }
@@ -359,12 +378,12 @@ internal static partial class WhatIfJumpController
             return;
         }
 
-        if (!TryGetActiveCombatContext(out _, out Player? owner, out WhatIfJump? relic, out CombatRoom? room))
+        if (!TryGetActiveCombatContext(out _, out Player? owner, out WhatIfJump? jumpRelic, out WhatIfJumpSlash? jumpSlashRelic, out CombatRoom? room))
         {
             _runtimeNode?.CancelCharge();
             return;
         }
-        if (owner == null || relic == null || room == null)
+        if (owner == null || room == null)
         {
             return;
         }
@@ -376,7 +395,7 @@ internal static partial class WhatIfJumpController
             return;
         }
 
-        _runtimeNode?.ReleaseCharge(owner, relic, room, Time.GetTicksMsec());
+        _runtimeNode?.ReleaseCharge(owner, jumpRelic, jumpSlashRelic, room, Time.GetTicksMsec());
     }
 
     private sealed partial class JumpRuntimeNode : Node
@@ -384,15 +403,16 @@ internal static partial class WhatIfJumpController
         private readonly Queue<ulong> _jumpTimes = [];
         private bool _isCharging;
         private ulong _chargeStartedAtMsec;
+        private ulong _lastProcessedJumpAtMsec;
 
         public override void _Process(double delta)
         {
-            if (!TryGetActiveCombatContext(out _, out _, out WhatIfJump? relic, out _))
+            if (!TryGetActiveCombatContext(out _, out _, out WhatIfJump? jumpRelic, out _, out _))
             {
                 ClearJumpState(null);
                 return;
             }
-            if (relic == null)
+            if (jumpRelic == null)
             {
                 ClearJumpState(null);
                 return;
@@ -400,7 +420,7 @@ internal static partial class WhatIfJumpController
 
             ulong now = Time.GetTicksMsec();
             PruneExpired(now);
-            relic.SetCurrentJumpCount(_jumpTimes.Count);
+            jumpRelic.SetCurrentJumpCount(_jumpTimes.Count);
         }
 
         public override void _Input(InputEvent @event)
@@ -435,7 +455,12 @@ internal static partial class WhatIfJumpController
             _chargeStartedAtMsec = 0;
         }
 
-        public void ReleaseCharge(Player owner, WhatIfJump relic, CombatRoom room, ulong now)
+        public void ReleaseCharge(
+            Player owner,
+            WhatIfJump? jumpRelic,
+            WhatIfJumpSlash? jumpSlashRelic,
+            CombatRoom room,
+            ulong now)
         {
             if (!_isCharging)
             {
@@ -444,24 +469,35 @@ internal static partial class WhatIfJumpController
 
             double holdDurationMsec = Math.Min(now - _chargeStartedAtMsec, MaxChargeMsec);
             CancelCharge();
-            PruneExpired(now);
-
-            if (_jumpTimes.Count > 0 && now == _jumpTimes.ToArray()[^1])
+            if (_lastProcessedJumpAtMsec == now)
             {
                 return;
             }
 
-            _jumpTimes.Enqueue(now);
-            relic.SetCurrentJumpCount(_jumpTimes.Count);
+            _lastProcessedJumpAtMsec = now;
             PlayJumpFeedback(owner, holdDurationMsec);
             BroadcastJumpFeedback(owner, holdDurationMsec);
+
+            if (jumpSlashRelic != null)
+            {
+                TryQueueJumpSlashCritical(owner, jumpSlashRelic);
+            }
+
+            if (jumpRelic == null)
+            {
+                return;
+            }
+
+            PruneExpired(now);
+            _jumpTimes.Enqueue(now);
+            jumpRelic.SetCurrentJumpCount(_jumpTimes.Count);
 
             if (_jumpTimes.Count < WhatIfJump.RequiredJumpCount)
             {
                 return;
             }
 
-            ClearJumpState(relic);
+            ClearJumpState(jumpRelic);
             TaskHelper.RunSafely(SkipCurrentCombatAsync(room));
         }
 
@@ -476,8 +512,33 @@ internal static partial class WhatIfJumpController
         private void ClearJumpState(WhatIfJump? relic)
         {
             _jumpTimes.Clear();
+            _lastProcessedJumpAtMsec = 0;
             relic?.SetCurrentJumpCount(0);
         }
+    }
+
+    private static void TryQueueJumpSlashCritical(Player owner, WhatIfJumpSlash relic)
+    {
+        if (!relic.CanGainCriticalThisTurn())
+        {
+            return;
+        }
+
+        bool requested = RitsuLibManagedNetActions.Request(
+            RunManager.Instance,
+            JumpSlashCriticalDescriptor,
+            default,
+            owner.NetId);
+        if (!requested)
+        {
+            Entry.Logger.VeryDebug($"WhatIfJumpSlash could not enqueue managed critical action for player {owner.NetId}.");
+        }
+    }
+
+    private static Task ExecuteJumpSlashCriticalAsync(RitsuLibManagedNetActionContext<JumpSlashCriticalActionPayload> context)
+    {
+        WhatIfJumpSlash? relic = context.Player.GetRelic<WhatIfJumpSlash>();
+        return relic?.TryGrantCriticalFromJump(context.PlayerChoiceContext, context.Player) ?? Task.CompletedTask;
     }
 
     private sealed class JumpAnimationState
@@ -490,6 +551,8 @@ internal static partial class WhatIfJumpController
 
         public Tween? ActiveTween { get; set; }
     }
+
+    private readonly record struct JumpSlashCriticalActionPayload;
 
     [HarmonyPatch(typeof(NGame), nameof(NGame._Input))]
     private static class NGame_Input_Patch
