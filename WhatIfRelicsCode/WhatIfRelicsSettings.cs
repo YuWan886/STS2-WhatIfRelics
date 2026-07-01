@@ -2,6 +2,8 @@ namespace WhatIfRelics.WhatIfRelicsCode;
 
 public sealed class WhatIfRelicsSettings
 {
+    public const int DefaultScorchingSpireFloorInterval = 10;
+
     public bool EnableWhatIfRelics { get; set; } = false;
 
     public bool ReplaceStartingDeck { get; set; } = true;
@@ -20,6 +22,8 @@ public sealed class WhatIfRelicsSettings
 
     public bool ReplaceShopPotions { get; set; } = true;
 
+    public int ScorchingSpireFloorInterval { get; set; } = DefaultScorchingSpireFloorInterval;
+
     public void ResetToDefaults()
     {
         WhatIfRelicsSettings defaults = new();
@@ -32,5 +36,6 @@ public sealed class WhatIfRelicsSettings
         ReplaceShopCards = defaults.ReplaceShopCards;
         ReplaceShopRelics = defaults.ReplaceShopRelics;
         ReplaceShopPotions = defaults.ReplaceShopPotions;
+        ScorchingSpireFloorInterval = defaults.ScorchingSpireFloorInterval;
     }
 }

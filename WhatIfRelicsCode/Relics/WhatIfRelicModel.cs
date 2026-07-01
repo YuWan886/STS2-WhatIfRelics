@@ -5,12 +5,13 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
+using WhatIfRelics.WhatIfRelicsCode.Assets;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
 public abstract class WhatIfRelicModel : RelicModel
 {
-    private const string PlaceholderIconPath = "res://WhatIfRelics/images/relics/what_if_placeholder.png";
+    private const string RelicImageRoot = "res://WhatIfRelics/images/relics";
 
     public sealed override RelicRarity Rarity => RelicRarity.Event;
 
@@ -42,11 +43,11 @@ public abstract class WhatIfRelicModel : RelicModel
         }
     }
 
-    protected override string BigIconPath => PlaceholderIconPath;
+    protected override string BigIconPath => ResolveAutoIconPath();
 
-    public override string PackedIconPath => PlaceholderIconPath;
+    public override string PackedIconPath => ResolveAutoIconPath();
 
-    protected override string PackedIconOutlinePath => PlaceholderIconPath;
+    protected override string PackedIconOutlinePath => ResolveAutoIconPath();
 
     protected WhatIfRelicModel()
     {
@@ -54,6 +55,13 @@ public abstract class WhatIfRelicModel : RelicModel
 
     protected WhatIfRelicModel(bool autoAdd) : this()
     {
+    }
+
+    private string ResolveAutoIconPath()
+    {
+        return WhatIfAssetPathHelper.ResolveExistingPath(
+            WhatIfAssetPathHelper.BuildAutoImagePath(GetType(), RelicImageRoot),
+            WhatIfAssetPathHelper.PlaceholderRelicIconPath);
     }
 
     public override void ModifyMerchantCardCreationResults(Player player, List<CardCreationResult> cards)

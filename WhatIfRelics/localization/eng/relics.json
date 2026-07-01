@@ -185,7 +185,13 @@
   "WHAT_IF_RELICS_RELIC_WHAT_IF_I_ADAPT_TO_EVERYTHING.title": "What If I Could Adapt to Everything",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_I_ADAPT_TO_EVERYTHING.description": "You gradually adapt to attacks from the same enemy. In combat, a normal enemy's 4th attack, an elite's 7th, and a boss's 12th against you deal 0 damage; earlier repeats are reduced proportionally, and multi-hit attacks count once. Also, after you gain the same debuff 5 times in a run, you become immune to that debuff for the rest of the run.",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_I_ADAPT_TO_EVERYTHING.flavor": "Nothing stays unfamiliar forever.",
-  "WHAT_IF_RELICS_RELIC_WHAT_IF_BLASPHEMY.title": "What If You Started with Blasphemy",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_SCORCHING_SPIRE.title": "Scorching Spire",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_SCORCHING_SPIRE.description": "Every {FloorInterval} floors climbed, gain 1 stack of [gold]Heat[/gold].",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_SCORCHING_SPIRE.flavor": "The higher you climb, the harder the Spire bakes back.",
+  "WHAT_IF_RELICS_RELIC_SCORCHING_AIR_CONDITIONER.title": "Air Conditioner",
+  "WHAT_IF_RELICS_RELIC_SCORCHING_AIR_CONDITIONER.description": "Every 2 turns, reduce 1 stack of [gold]Heat[/gold].",
+  "WHAT_IF_RELICS_RELIC_SCORCHING_AIR_CONDITIONER.flavor": "At last, a little cold rebellion against the tower.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_BLASPHEMY.title": "Start with Blasphemy",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_BLASPHEMY.description": "When obtained, gain a [gold]Blasphemy[/gold].",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_BLASPHEMY.flavor": "Step past the boundary, and the cost arrives one turn later."
 }

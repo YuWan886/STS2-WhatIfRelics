@@ -15,6 +15,7 @@ internal struct WhatIfRelicsConfigMessage : INetMessage, IPacketSerializable
     public required bool ReplaceShopCards;
     public required bool ReplaceShopRelics;
     public required bool ReplaceShopPotions;
+    public required int ScorchingSpireFloorInterval;
 
     public bool ShouldBroadcast => false;
 
@@ -36,7 +37,8 @@ internal struct WhatIfRelicsConfigMessage : INetMessage, IPacketSerializable
             ReplaceTreasureRelics = settings.ReplaceTreasureRelics,
             ReplaceShopCards = settings.ReplaceShopCards,
             ReplaceShopRelics = settings.ReplaceShopRelics,
-            ReplaceShopPotions = settings.ReplaceShopPotions
+            ReplaceShopPotions = settings.ReplaceShopPotions,
+            ScorchingSpireFloorInterval = Math.Max(1, settings.ScorchingSpireFloorInterval)
         };
     }
 
@@ -51,6 +53,7 @@ internal struct WhatIfRelicsConfigMessage : INetMessage, IPacketSerializable
         writer.WriteBool(ReplaceShopCards);
         writer.WriteBool(ReplaceShopRelics);
         writer.WriteBool(ReplaceShopPotions);
+        writer.WriteInt(ScorchingSpireFloorInterval);
     }
 
     public void Deserialize(PacketReader reader)
@@ -64,5 +67,6 @@ internal struct WhatIfRelicsConfigMessage : INetMessage, IPacketSerializable
         ReplaceShopCards = reader.ReadBool();
         ReplaceShopRelics = reader.ReadBool();
         ReplaceShopPotions = reader.ReadBool();
+        ScorchingSpireFloorInterval = Math.Max(1, reader.ReadInt());
     }
 }

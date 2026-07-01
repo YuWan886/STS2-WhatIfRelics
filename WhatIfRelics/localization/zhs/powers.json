@@ -4,5 +4,8 @@
   "WHAT_IF_RELICS_POWER_WHAT_IF_JUMP_SLASH_CRITICAL_POWER.smartDescription": "你的下一张攻击牌造成[blue]1.5[/blue]倍伤害。",
   "WHAT_IF_RELICS_POWER_WHAT_IF_BLASPHEMY_POWER.title": "渎神",
   "WHAT_IF_RELICS_POWER_WHAT_IF_BLASPHEMY_POWER.description": "你的攻击造成[blue]3[/blue]倍伤害。\n你将在下回合开始时死亡。",
-  "WHAT_IF_RELICS_POWER_WHAT_IF_BLASPHEMY_POWER.smartDescription": "你的攻击造成[blue]3[/blue]倍伤害。\n你将在下回合开始时死亡。"
+  "WHAT_IF_RELICS_POWER_WHAT_IF_BLASPHEMY_POWER.smartDescription": "你的攻击造成[blue]3[/blue]倍伤害。\n你将在下回合开始时死亡。",
+  "WHAT_IF_RELICS_POWER_WHAT_IF_HEAT_POWER.title": "炎热",
+  "WHAT_IF_RELICS_POWER_WHAT_IF_HEAT_POWER.description": "在你的回合开始时，受到[blue]1[/blue]点伤害。",
+  "WHAT_IF_RELICS_POWER_WHAT_IF_HEAT_POWER.smartDescription": "在你的回合开始时，受到[blue]{Amount}[/blue]点伤害。"
 }

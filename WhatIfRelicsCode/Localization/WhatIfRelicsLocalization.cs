@@ -18,6 +18,12 @@ internal static class WhatIfRelicsLocalization
     public static ModSettingsText EnableAtStartText() =>
         ModSettingsText.LocString(UiTable, "whatifrelics.settings.enable_at_start", "Enable start-of-run What If relic options");
 
+    public static ModSettingsText ScorchingSpireFloorIntervalText() =>
+        ModSettingsText.LocString(
+            UiTable,
+            "whatifrelics.settings.scorching_spire_floor_interval",
+            "Scorching Spire: floors per Heat stack");
+
     public static ModSettingsText ReplacementSectionTitleText() =>
         ModSettingsText.LocString(UiTable, "whatifrelics.settings.section.replacement.title", "Replacement Scope");
 

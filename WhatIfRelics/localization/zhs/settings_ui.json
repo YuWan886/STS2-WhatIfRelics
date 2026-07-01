@@ -3,6 +3,7 @@
   "whatifrelics.settings.page.title": "假如遗物设置",
   "whatifrelics.settings.section.general.title": "通用",
   "whatifrelics.settings.enable_at_start": "启用开局假如遗物选项",
+  "whatifrelics.settings.scorching_spire_floor_interval": "炽热尖塔：每多少层获得1层炎热",
   "whatifrelics.settings.section.replacement.title": "替换范围",
   "whatifrelics.settings.replace_starting_deck": "替换初始手牌",
   "whatifrelics.settings.replace_card_rewards": "替换卡牌奖励",

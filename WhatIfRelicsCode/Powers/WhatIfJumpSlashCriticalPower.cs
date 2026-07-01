@@ -16,8 +16,6 @@ public sealed class WhatIfJumpSlashCriticalPower : WhatIfPowerTemplate
 
     private CardModel? _attackToBoost;
 
-    protected override string IconFileName => "what_if_jump_slash_critical_power.png";
-
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.Counter;

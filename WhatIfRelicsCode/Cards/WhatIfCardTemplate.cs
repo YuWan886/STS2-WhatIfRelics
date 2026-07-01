@@ -1,6 +1,6 @@
-using Godot;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using STS2RitsuLib.Scaffolding.Content;
+using WhatIfRelics.WhatIfRelicsCode.Assets;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Cards;
 
@@ -12,7 +12,7 @@ public abstract class WhatIfCardTemplate(
     bool showInCardLibrary = true)
     : ModCardTemplate(baseCost, type, rarity, target, showInCardLibrary)
 {
-    protected virtual string PortraitFileName => $"{Id.Entry.ToLowerInvariant()}.png";
+    protected virtual string PortraitFileName => WhatIfAssetPathHelper.BuildSnakeCasePngFileName(GetType());
 
     protected virtual string AutoPortraitPath => $"{Entry.ResPath}/images/card_portraits/{PortraitFileName}";
 
@@ -28,6 +28,6 @@ public abstract class WhatIfCardTemplate(
 
     private static string? ResolvePortraitPath(string? path)
     {
-        return !string.IsNullOrWhiteSpace(path) && ResourceLoader.Exists(path) ? path : null;
+        return WhatIfAssetPathHelper.ResolveExistingPathOrNull(path);
     }
 }

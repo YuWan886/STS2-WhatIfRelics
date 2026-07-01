@@ -78,7 +78,7 @@ internal static class WhatIfRelicsConfigSync
             $"cardRewards={settings.ReplaceCardRewards}, relicRewards={settings.ReplaceRelicRewards}, " +
             $"potionRewards={settings.ReplacePotionRewards}, treasureRelics={settings.ReplaceTreasureRelics}, " +
             $"shopCards={settings.ReplaceShopCards}, shopRelics={settings.ReplaceShopRelics}, " +
-            $"shopPotions={settings.ReplaceShopPotions}");
+            $"shopPotions={settings.ReplaceShopPotions}, scorchingSpireFloorInterval={settings.ScorchingSpireFloorInterval}");
         _registeredNetService.SendMessage(WhatIfRelicsConfigMessage.FromSettings(settings));
     }
 
@@ -118,9 +118,25 @@ internal static class WhatIfRelicsConfigSync
         static config => config.ReplaceShopPotions,
         static settings => settings.ReplaceShopPotions);
 
+    public static int EffectiveScorchingSpireFloorInterval() => EffectiveValue(
+        static config => config.ScorchingSpireFloorInterval,
+        static settings => Math.Max(1, settings.ScorchingSpireFloorInterval));
+
     private static bool EffectiveValue(
         Func<WhatIfRelicsConfigMessage, bool> hostSelector,
         Func<WhatIfRelicsSettings, bool> localSelector)
+    {
+        if (IsMultiplayerClient() && _hasHostConfig)
+        {
+            return hostSelector(_hostConfig);
+        }
+
+        return localSelector(WhatIfRelicsSettingsPage.Current);
+    }
+
+    private static int EffectiveValue(
+        Func<WhatIfRelicsConfigMessage, int> hostSelector,
+        Func<WhatIfRelicsSettings, int> localSelector)
     {
         if (IsMultiplayerClient() && _hasHostConfig)
         {
@@ -140,7 +156,7 @@ internal static class WhatIfRelicsConfigSync
             $"cardRewards={message.ReplaceCardRewards}, relicRewards={message.ReplaceRelicRewards}, " +
             $"potionRewards={message.ReplacePotionRewards}, treasureRelics={message.ReplaceTreasureRelics}, " +
             $"shopCards={message.ReplaceShopCards}, shopRelics={message.ReplaceShopRelics}, " +
-            $"shopPotions={message.ReplaceShopPotions}");
+            $"shopPotions={message.ReplaceShopPotions}, scorchingSpireFloorInterval={message.ScorchingSpireFloorInterval}");
     }
 
     private static NetGameType GetNetGameType()

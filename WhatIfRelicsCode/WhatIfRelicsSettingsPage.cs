@@ -9,6 +9,8 @@ namespace WhatIfRelics.WhatIfRelicsCode;
 public static class WhatIfRelicsSettingsPage
 {
     public const string DataKey = "settings";
+    private const int MinScorchingSpireFloorInterval = 1;
+    private const int MaxScorchingSpireFloorInterval = 50;
 
     private static readonly ModSettingsValueBinding<WhatIfRelicsSettings, bool> EnableWhatIfRelicsBinding = new(
         Entry.ModId,
@@ -73,6 +75,13 @@ public static class WhatIfRelicsSettingsPage
         static s => s.ReplaceShopPotions,
         static (s, v) => s.ReplaceShopPotions = v);
 
+    private static readonly ModSettingsValueBinding<WhatIfRelicsSettings, int> ScorchingSpireFloorIntervalBinding = new(
+        Entry.ModId,
+        DataKey,
+        SaveScope.Global,
+        static s => s.ScorchingSpireFloorInterval,
+        static (s, v) => s.ScorchingSpireFloorInterval = Math.Max(MinScorchingSpireFloorInterval, v));
+
     public static WhatIfRelicsSettings Current =>
         RitsuLibFramework.GetDataStore(Entry.ModId).Get<WhatIfRelicsSettings>(DataKey);
 
@@ -98,7 +107,15 @@ public static class WhatIfRelicsSettingsPage
                         .AddToggle(
                             "enable_what_if_relics",
                             WhatIfRelicsLocalization.EnableAtStartText(),
-                            EnableWhatIfRelicsBinding))
+                            EnableWhatIfRelicsBinding)
+                        .AddIntSlider(
+                            "scorching_spire_floor_interval",
+                            WhatIfRelicsLocalization.ScorchingSpireFloorIntervalText(),
+                            ScorchingSpireFloorIntervalBinding,
+                            MinScorchingSpireFloorInterval,
+                            MaxScorchingSpireFloorInterval,
+                            1,
+                            static value => value.ToString()))
                 .AddSection(
                     "replacement_scope",
                     section => section

@@ -14,8 +14,6 @@ public sealed class WhatIfBlasphemyPower : WhatIfPowerTemplate
 {
     private const decimal DamageMultiplierPerStack = 3m;
 
-    protected override string IconFileName => "what_if_blasphemer_power.png";
-
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.Counter;
