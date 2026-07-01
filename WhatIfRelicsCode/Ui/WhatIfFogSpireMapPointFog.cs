@@ -21,7 +21,7 @@ internal sealed partial class WhatIfFogSpireMapPointFog : Control
     {
         Name = FogNodeName;
         MouseFilter = MouseFilterEnum.Ignore;
-        ZIndex = 0;
+        ZIndex = 1;
         Position = positionOffset;
         Size = size;
         PivotOffset = size * 0.5f;

@@ -1,5 +1,8 @@
 {
-  "WHAT_IF_JUMP_SLASH_CRITICAL_POWER.title": "Critical",
-  "WHAT_IF_JUMP_SLASH_CRITICAL_POWER.description": "Your next Attack deals [blue]1.5x[/blue] damage.",
-  "WHAT_IF_JUMP_SLASH_CRITICAL_POWER.smartDescription": "Your next Attack deals [blue]1.5x[/blue] damage."
+  "WHAT_IF_RELICS_POWER_WHAT_IF_JUMP_SLASH_CRITICAL_POWER.title": "Critical",
+  "WHAT_IF_RELICS_POWER_WHAT_IF_JUMP_SLASH_CRITICAL_POWER.description": "Your next Attack deals [blue]1.5x[/blue] damage.",
+  "WHAT_IF_RELICS_POWER_WHAT_IF_JUMP_SLASH_CRITICAL_POWER.smartDescription": "Your next Attack deals [blue]1.5x[/blue] damage.",
+  "WHAT_IF_RELICS_POWER_WHAT_IF_BLASPHEMY_POWER.title": "Blasphemy",
+  "WHAT_IF_RELICS_POWER_WHAT_IF_BLASPHEMY_POWER.description": "Your Attacks deal [blue]3x[/blue] damage. \nYou die at the start of your next turn.",
+  "WHAT_IF_RELICS_POWER_WHAT_IF_BLASPHEMY_POWER.smartDescription": "Your Attacks deal [blue]3x[/blue] damage. \nYou die at the start of your next turn."
 }

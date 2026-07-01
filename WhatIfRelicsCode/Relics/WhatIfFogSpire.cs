@@ -2,6 +2,7 @@ using Godot;
 using MegaCrit.Sts2.Core.Map;
 using MegaCrit.Sts2.Core.Nodes.Screens.Capstones;
 using MegaCrit.Sts2.Core.Nodes.Screens.Map;
+using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -151,6 +152,7 @@ public class WhatIfFogSpire : WhatIfRelicModel
         SetNodeChildVisible(node, "SpriteContainer", true);
         SetNodeChildVisible(node, "SelectionReticle", true);
         SetNodeChildVisible(node, "MapPointVoteContainer", true);
+        SetVisitedMarkerVisible(node, true);
         WhatIfFogSpireMapPointFog.Remove(node);
     }
 
@@ -163,6 +165,7 @@ public class WhatIfFogSpire : WhatIfRelicModel
         SetNodeChildVisible(node, "SpriteContainer", false);
         SetNodeChildVisible(node, "SelectionReticle", false);
         SetNodeChildVisible(node, "MapPointVoteContainer", false);
+        SetVisitedMarkerVisible(node, false);
 
         (Vector2 size, Vector2 offset) = GetFogPlaceholderLayout(node);
         WhatIfFogSpireMapPointFog fog = WhatIfFogSpireMapPointFog.GetOrCreate(node, size, offset, hiddenIndex * 0.73f);
@@ -193,6 +196,17 @@ public class WhatIfFogSpire : WhatIfRelicModel
             {
                 canvasItem.Visible = visible;
                 return;
+            }
+        }
+    }
+
+    private static void SetVisitedMarkerVisible(NMapPoint node, bool visible)
+    {
+        foreach (Node child in node.GetChildren())
+        {
+            if (child is NMapCircleVfx circleVfx)
+            {
+                circleVfx.Visible = visible;
             }
         }
     }
