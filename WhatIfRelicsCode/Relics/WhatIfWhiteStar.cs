@@ -1,4 +1,3 @@
-using STS2RitsuLib.Interop.AutoRegistration;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Relics;
@@ -8,7 +7,7 @@ using MegaCrit.Sts2.Core.Runs;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfWhiteStar")]
+[WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfWhiteStar")]
 public class WhatIfWhiteStar : WhatIfRelicModel, IWhatIfUniformRelicSource
 {
     public WhatIfWhiteStar() : base(true)

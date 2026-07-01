@@ -6,11 +6,10 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Saves.Runs;
-using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfAllEnemiesHaveNemesis")]
+[WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfAllEnemiesHaveNemesis")]
 public class WhatIfAllEnemiesHaveNemesis : WhatIfRelicModel
 {
     private HashSet<string> _affectedEnemyKeys = [];

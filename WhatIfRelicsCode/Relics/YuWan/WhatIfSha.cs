@@ -1,4 +1,3 @@
-using STS2RitsuLib.Interop.AutoRegistration;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -10,7 +9,7 @@ using WhatIfRelics.WhatIfRelicsCode.Relics.YuWan;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfSha")]
+[WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfSha")]
 public class WhatIfSha : WhatIfRelicModel, IYuWanWhatIfRelic
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>

@@ -1,5 +1,5 @@
 {
-  "WHAT_IF_RELICS_CARD_WHAT_IF_BLASPHEMY_CARD.title": "Blasphemy",
-  "WHAT_IF_RELICS_CARD_WHAT_IF_BLASPHEMY_CARD.description": "Gain [blue]{Energy:energyIcons()}[/blue] Energy. \nYour Attacks deal [blue]3x[/blue] damage. \nDie next turn.",
-  "WHAT_IF_RELICS_CARD_WHAT_IF_BLASPHEMY_CARD.smartDescription": "Gain [blue]{Energy:energyIcons()}[/blue] Energy. \nYour Attacks deal [blue]3x[/blue] damage. \nDie next turn."
+  "WHAT_IF_RELICS_CARD_WHAT_IF_BLASPHEMY.title": "Blasphemy",
+  "WHAT_IF_RELICS_CARD_WHAT_IF_BLASPHEMY.description": "Gain [blue]{Energy:energyIcons()}[/blue] Energy. \nYour Attacks deal [blue]3x[/blue] damage. \nDie next turn.",
+  "WHAT_IF_RELICS_CARD_WHAT_IF_BLASPHEMY.smartDescription": "Gain [blue]{Energy:energyIcons()}[/blue] Energy. \nYour Attacks deal [blue]3x[/blue] damage. \nDie next turn."
 }

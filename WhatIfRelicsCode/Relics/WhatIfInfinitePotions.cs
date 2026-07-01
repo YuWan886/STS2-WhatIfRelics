@@ -1,4 +1,3 @@
-using STS2RitsuLib.Interop.AutoRegistration;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Models;
@@ -6,7 +5,7 @@ using WhatIfRelics.WhatIfRelicsCode.Utils;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfInfinitePotions")]
+[WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfInfinitePotions")]
 public class WhatIfInfinitePotions : WhatIfRelicModel
 {
     public WhatIfInfinitePotions() : base(true)

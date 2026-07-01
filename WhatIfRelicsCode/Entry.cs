@@ -3,7 +3,7 @@ using HarmonyLib;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
 using STS2RitsuLib;
-using WhatIfRelics.WhatIfRelicsCode.Content;
+using STS2RitsuLib.Interop;
 using WhatIfRelics.WhatIfRelicsCode.Jumping;
 using WhatIfRelics.WhatIfRelicsCode.Relics;
 using WhatIfRelics.WhatIfRelicsCode.Networking;
@@ -23,7 +23,7 @@ public static class Entry
     {
         Assembly assembly = Assembly.GetExecutingAssembly();
         RitsuLibFramework.EnsureGodotScriptsRegistered(assembly, Logger);
-        WhatIfAuxContentRegistration.Initialize(ModId, Logger);
+        ModTypeDiscoveryHub.RegisterModAssembly(ModId, assembly);
         WhatIfRelicRegistration.Initialize(ModId, Logger, assembly);
 
         WhatIfRelicsSettingsPage.Register();

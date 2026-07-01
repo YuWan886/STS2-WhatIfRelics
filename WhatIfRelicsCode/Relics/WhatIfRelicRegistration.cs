@@ -1,7 +1,6 @@
 using System.Reflection;
 using MegaCrit.Sts2.Core.Logging;
 using STS2RitsuLib.Content;
-using STS2RitsuLib.Interop.AutoRegistration;
 using WhatIfRelics.WhatIfRelicsCode.Relics.YuWan;
 using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
@@ -9,7 +8,7 @@ namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
 public static class WhatIfRelicRegistration
 {
-    private sealed record RegistrationCandidate(Type RelicType, RegisterRelicAttribute Attribute, bool RequiresYuWan);
+    private sealed record RegistrationCandidate(Type RelicType, WhatIfRegisterRelicAttribute Attribute, bool RequiresYuWan);
 
     private static readonly Lock Sync = new();
     private static readonly HashSet<Type> RegisteredRelicTypes = [];
@@ -210,7 +209,7 @@ public static class WhatIfRelicRegistration
             .Select(static type => new
             {
                 Type = type,
-                Attribute = type.GetCustomAttribute<RegisterRelicAttribute>()
+                Attribute = type.GetCustomAttribute<WhatIfRegisterRelicAttribute>()
             })
             .Where(static x => x.Attribute?.PoolType == typeof(WhatIfRelicPool))
             .Select(static x => new RegistrationCandidate(
@@ -222,7 +221,7 @@ public static class WhatIfRelicRegistration
             .ToList();
     }
 
-    private static ModelPublicEntryOptions ResolvePublicEntryOptions(RegisterRelicAttribute attribute)
+    private static ModelPublicEntryOptions ResolvePublicEntryOptions(WhatIfRegisterRelicAttribute attribute)
     {
         if (!string.IsNullOrWhiteSpace(attribute.FullPublicEntry))
         {

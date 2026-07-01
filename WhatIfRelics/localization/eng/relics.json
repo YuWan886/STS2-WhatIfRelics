@@ -186,6 +186,6 @@
   "WHAT_IF_RELICS_RELIC_WHAT_IF_I_ADAPT_TO_EVERYTHING.description": "You gradually adapt to attacks from the same enemy. In combat, a normal enemy's 4th attack, an elite's 7th, and a boss's 12th against you deal 0 damage; earlier repeats are reduced proportionally, and multi-hit attacks count once. Also, after you gain the same debuff 5 times in a run, you become immune to that debuff for the rest of the run.",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_I_ADAPT_TO_EVERYTHING.flavor": "Nothing stays unfamiliar forever.",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_BLASPHEMY.title": "What If You Started with Blasphemy",
-  "WHAT_IF_RELICS_RELIC_WHAT_IF_BLASPHEMY.description": "When obtained, gain an Innate [gold]Blasphemy[/gold].",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_BLASPHEMY.description": "When obtained, gain a [gold]Blasphemy[/gold].",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_BLASPHEMY.flavor": "Step past the boundary, and the cost arrives one turn later."
 }

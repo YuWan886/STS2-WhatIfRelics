@@ -1,4 +1,3 @@
-using STS2RitsuLib.Interop.AutoRegistration;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
@@ -10,7 +9,7 @@ using WhatIfRelics.WhatIfRelicsCode.Relics.YuWan;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfTriplePlay")]
+[WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfTriplePlay")]
 public class WhatIfTriplePlay : WhatIfRelicModel, IWhatIfUniformRelicSource, IYuWanWhatIfRelic
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>

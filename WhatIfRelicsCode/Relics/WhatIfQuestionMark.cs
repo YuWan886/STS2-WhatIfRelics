@@ -1,11 +1,10 @@
-using STS2RitsuLib.Interop.AutoRegistration;
 using MegaCrit.Sts2.Core.Map;
 using MegaCrit.Sts2.Core.Nodes.Screens.Map;
 using WhatIfRelics.WhatIfRelicsCode.Utils;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfQuestionMark")]
+[WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfQuestionMark")]
 public class WhatIfQuestionMark : WhatIfRelicModel
 {
     private static readonly HashSet<MapPointType> EssentialTypes =

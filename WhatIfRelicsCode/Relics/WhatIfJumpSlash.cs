@@ -5,12 +5,11 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Saves.Runs;
-using STS2RitsuLib.Interop.AutoRegistration;
 using WhatIfRelics.WhatIfRelicsCode.Powers;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfJumpSlash")]
+[WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfJumpSlash")]
 public class WhatIfJumpSlash : WhatIfRelicModel
 {
     private const int CriticalChancePercent = 5;

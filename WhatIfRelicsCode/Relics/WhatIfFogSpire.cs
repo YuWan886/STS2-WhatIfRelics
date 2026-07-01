@@ -5,13 +5,12 @@ using MegaCrit.Sts2.Core.Nodes.Screens.Map;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
-using STS2RitsuLib.Interop.AutoRegistration;
 using WhatIfRelics.WhatIfRelicsCode.Ui;
 using WhatIfRelics.WhatIfRelicsCode.Utils;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfFogSpire")]
+[WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfFogSpire")]
 public class WhatIfFogSpire : WhatIfRelicModel
 {
     private static int _mapFogUiSuppressDepth;

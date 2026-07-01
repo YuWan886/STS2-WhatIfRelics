@@ -1,9 +1,7 @@
 using System.Reflection;
-using STS2RitsuLib.Interop;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Interop;
 
-[ModInterop("YuWanCard", "YuWanCard.WhatIfRelicsCode.Interop.YuWanWhatIfInterop")]
 public static class YuWanInterop
 {
     private const string RemoteInteropTypeName = "YuWanCard.WhatIfRelicsCode.Interop.YuWanWhatIfInterop, YuWanCard";

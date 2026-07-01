@@ -1,4 +1,3 @@
-using STS2RitsuLib.Interop.AutoRegistration;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -8,7 +7,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfIAmSnakebite")]
+[WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfIAmSnakebite")]
 public class WhatIfIAmSnakebite : WhatIfRelicModel
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<PoisonPower>(7m)];

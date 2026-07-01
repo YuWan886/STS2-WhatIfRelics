@@ -1,9 +1,8 @@
-using STS2RitsuLib.Interop.AutoRegistration;
 using MegaCrit.Sts2.Core.Runs;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfRandomEncounters")]
+[WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfRandomEncounters")]
 public class WhatIfRandomEncounters : WhatIfRelicModel
 {
     public WhatIfRandomEncounters() : base(true)

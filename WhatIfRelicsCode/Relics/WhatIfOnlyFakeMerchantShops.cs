@@ -1,9 +1,8 @@
-using STS2RitsuLib.Interop.AutoRegistration;
 using MegaCrit.Sts2.Core.Runs;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfOnlyFakeMerchantShops")]
+[WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfOnlyFakeMerchantShops")]
 public class WhatIfOnlyFakeMerchantShops : WhatIfRelicModel
 {
     public WhatIfOnlyFakeMerchantShops() : base(true)

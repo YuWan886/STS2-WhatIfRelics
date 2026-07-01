@@ -5,11 +5,13 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using STS2RitsuLib.Interop.AutoRegistration;
 using WhatIfRelics.WhatIfRelicsCode.Powers;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Cards;
 
-public sealed class WhatIfBlasphemyCard : WhatIfCardTemplate
+[RegisterCard(typeof(EventCardPool), StableEntryStem = "WhatIfBlasphemy")]
+public sealed class WhatIfBlasphemy : WhatIfCardTemplate
 {
     private const int BaseEnergyCost = 1;
 
@@ -30,7 +32,7 @@ public sealed class WhatIfBlasphemyCard : WhatIfCardTemplate
         CardKeyword.Exhaust
     ];
 
-    public WhatIfBlasphemyCard()
+    public WhatIfBlasphemy()
         : base(BaseEnergyCost, CardType.Skill, CardRarity.Event, TargetType.Self, showInCardLibrary: true)
     {
     }

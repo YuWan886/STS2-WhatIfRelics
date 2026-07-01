@@ -1,4 +1,3 @@
-using STS2RitsuLib.Interop.AutoRegistration;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
@@ -7,7 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfGambleGod")]
+[WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfGambleGod")]
 public class WhatIfGambleGod : WhatIfUniformCardRelicModel
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>

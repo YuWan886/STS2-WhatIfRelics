@@ -5,9 +5,11 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Powers;
 
+[RegisterPower]
 public sealed class WhatIfJumpSlashCriticalPower : WhatIfPowerTemplate
 {
     private const decimal DamageMultiplier = 1.5m;

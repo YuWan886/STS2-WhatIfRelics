@@ -1,4 +1,3 @@
-using STS2RitsuLib.Interop.AutoRegistration;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
@@ -6,7 +5,7 @@ using MegaCrit.Sts2.Core.Rooms;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfSoloUpgrade")]
+[WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfSoloUpgrade")]
 public class WhatIfSoloUpgrade : WhatIfRelicModel
 {
     public WhatIfSoloUpgrade() : base(true)

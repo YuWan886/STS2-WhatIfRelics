@@ -1,4 +1,3 @@
-using STS2RitsuLib.Interop.AutoRegistration;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
@@ -9,7 +8,7 @@ using MegaCrit.Sts2.Core.Runs;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfChemicalX")]
+[WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfChemicalX")]
 public class WhatIfChemicalX : WhatIfRelicModel, IWhatIfUniformRelicSource
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>

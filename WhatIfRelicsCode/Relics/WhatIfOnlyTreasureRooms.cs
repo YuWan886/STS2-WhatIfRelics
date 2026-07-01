@@ -1,4 +1,3 @@
-using STS2RitsuLib.Interop.AutoRegistration;
 using MegaCrit.Sts2.Core.Map;
 using MegaCrit.Sts2.Core.Nodes.Screens.Map;
 using MegaCrit.Sts2.Core.Runs;
@@ -6,7 +5,7 @@ using WhatIfRelics.WhatIfRelicsCode.Utils;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfOnlyTreasureRooms")]
+[WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfOnlyTreasureRooms")]
 public class WhatIfOnlyTreasureRooms : WhatIfRelicModel
 {
     public WhatIfOnlyTreasureRooms() : base(true)

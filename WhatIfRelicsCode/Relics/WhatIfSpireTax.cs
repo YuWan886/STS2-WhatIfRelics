@@ -1,4 +1,3 @@
-using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Context;
@@ -9,7 +8,7 @@ using MegaCrit.Sts2.Core.Runs;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfSpireTax")]
+[WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfSpireTax")]
 public class WhatIfSpireTax : WhatIfRelicModel
 {
     private static readonly AttachedState<WhatIfSpireTax, int[]> LastChargedLocation =

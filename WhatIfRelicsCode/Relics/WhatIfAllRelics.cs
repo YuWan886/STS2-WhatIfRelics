@@ -1,10 +1,9 @@
-using STS2RitsuLib.Interop.AutoRegistration;
 using MegaCrit.Sts2.Core.Models;
 using System.Reflection;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfAllRelics")]
+[WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfAllRelics")]
 public class WhatIfAllRelics : WhatIfRelicModel
 {
     private static readonly Assembly LocalAssembly = typeof(WhatIfAllRelics).Assembly;

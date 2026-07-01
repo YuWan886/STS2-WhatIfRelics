@@ -1,10 +1,9 @@
-using STS2RitsuLib.Interop.AutoRegistration;
 using MegaCrit.Sts2.Core.Map;
 using MegaCrit.Sts2.Core.Runs;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfOnlyOnePath")]
+[WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfOnlyOnePath")]
 public class WhatIfOnlyOnePath : WhatIfRelicModel
 {
     public WhatIfOnlyOnePath() : base(true)

@@ -1,4 +1,3 @@
-using STS2RitsuLib.Interop.AutoRegistration;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -7,7 +6,7 @@ using WhatIfRelics.WhatIfRelicsCode.Relics.YuWan;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfDirectWin")]
+[WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfDirectWin")]
 public class WhatIfDirectWin : WhatIfRelicModel, IYuWanWhatIfRelic
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>

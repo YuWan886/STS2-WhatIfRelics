@@ -1,4 +1,3 @@
-using STS2RitsuLib.Interop.AutoRegistration;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Rewards;
@@ -9,7 +8,7 @@ using WhatIfRelics.WhatIfRelicsCode.Relics.YuWan;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfHeartsteel")]
+[WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfHeartsteel")]
 public class WhatIfHeartsteel : WhatIfRelicModel, IWhatIfUniformRelicSource, IYuWanWhatIfRelic
 {
     public WhatIfHeartsteel() : base(true)

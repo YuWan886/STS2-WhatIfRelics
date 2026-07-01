@@ -186,6 +186,6 @@
   "WHAT_IF_RELICS_RELIC_WHAT_IF_I_ADAPT_TO_EVERYTHING.description": "你会逐渐适应同一个敌人对你的攻击。在战斗中，普通敌人的第4次攻击、精英敌人的第7次攻击、Boss的第12次攻击之后将对你造成0伤害；在这之前会按比例递减，多段攻击只算1次。\n此外，当你在一局中获得同一种负面效果5次后，余下本局将免疫该负面效果。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_I_ADAPT_TO_EVERYTHING.flavor": "再陌生的伤害，最终也会变得熟悉。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_BLASPHEMY.title": "假如开局获得渎神",
-  "WHAT_IF_RELICS_RELIC_WHAT_IF_BLASPHEMY.description": "拾起时，获得一张固有的[gold]渎神[/gold]。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_BLASPHEMY.description": "拾起时，获得一张[gold]渎神[/gold]。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_BLASPHEMY.flavor": "越过边界之后，代价会在下一刻追上来。"
 }

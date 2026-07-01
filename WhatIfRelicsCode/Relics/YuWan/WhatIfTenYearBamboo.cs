@@ -1,4 +1,3 @@
-using STS2RitsuLib.Interop.AutoRegistration;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Rewards;
@@ -9,7 +8,7 @@ using WhatIfRelics.WhatIfRelicsCode.Relics.YuWan;
 
 namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 
-[RegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfTenYearBamboo")]
+[WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfTenYearBamboo")]
 public class WhatIfTenYearBamboo : WhatIfRelicModel, IWhatIfUniformRelicSource, IYuWanWhatIfRelic
 {
     public WhatIfTenYearBamboo() : base(true)
