@@ -19,7 +19,8 @@
 ## 安装
 
 - [**创意工坊**](https://steamcommunity.com/sharedfiles/filedetails/?id=3749676176)
-- [**备用下载**](https://pan.quark.cn/s/734161e964f3)
+- [**Release**](https://github.com/YuWan886/STS2-WhatIfRelics/releases/latest)
+- [**备用下载**](https://pan.quark.cn/s/a1ec924f85ae)
 
 ---
 
@@ -42,3 +43,4 @@ A standalone extraction of the "What If" relic series from YuWanCard. At the sta
 ## Install
 
 - [**Steam Workshop**](https://steamcommunity.com/sharedfiles/filedetails/?id=3749676176)
+- [**Release**](https://github.com/YuWan886/STS2-WhatIfRelics/releases/latest)
