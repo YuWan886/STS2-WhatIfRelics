@@ -193,5 +193,8 @@
   "WHAT_IF_RELICS_RELIC_SCORCHING_AIR_CONDITIONER.flavor": "终于能用一点冷气，反抗这座烧起来的塔。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_BLASPHEMY.title": "开局获得渎神",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_BLASPHEMY.description": "拾起时，获得一张[gold]渎神[/gold]。",
-  "WHAT_IF_RELICS_RELIC_WHAT_IF_BLASPHEMY.flavor": "越过边界之后，代价会在下一刻追上来。"
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_BLASPHEMY.flavor": "越过边界之后，代价会在下一刻追上来。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_DECK_TRANSFORMS.title": "假如牌组会变化",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_DECK_TRANSFORMS.description": "每次进入战斗房间时，将你的牌组中的所有卡牌变化一次。变化范围为全卡池。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_DECK_TRANSFORMS.flavor": "等战斗真正开始时，原本的计划已经不是原本那套了。"
 }

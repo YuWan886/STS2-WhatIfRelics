@@ -193,5 +193,8 @@
   "WHAT_IF_RELICS_RELIC_SCORCHING_AIR_CONDITIONER.flavor": "At last, a little cold rebellion against the tower.",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_BLASPHEMY.title": "Start with Blasphemy",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_BLASPHEMY.description": "When obtained, gain a [gold]Blasphemy[/gold].",
-  "WHAT_IF_RELICS_RELIC_WHAT_IF_BLASPHEMY.flavor": "Step past the boundary, and the cost arrives one turn later."
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_BLASPHEMY.flavor": "Step past the boundary, and the cost arrives one turn later.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_DECK_TRANSFORMS.title": "What If Your Deck Transforms",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_DECK_TRANSFORMS.description": "Whenever you enter a combat room, transform every card in your deck once. Transformation candidates come from all card pools.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_DECK_TRANSFORMS.flavor": "By the time the fight starts, the plan is already someone else's."
 }
