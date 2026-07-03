@@ -36,7 +36,7 @@ public class WhatIfAllCardsAreIronWave : WhatIfRelicModel
             return;
         }
 
-        await CreatureCmd.Damage(context, target, DynamicVars.Damage.BaseValue, ValueProp.Move, Owner.Creature, null);
+        await CreatureCmd.Damage(context, target, DynamicVars.Damage.BaseValue, ValueProp.Move, Owner.Creature, cardSource: null, cardPlay: null);
     }
 }
 

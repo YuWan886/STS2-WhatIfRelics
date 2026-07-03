@@ -51,7 +51,7 @@ internal static class WhatIfRandomEncountersPatch
         List<EncounterModel> candidates = ModelDb.AllEncounters
             .Where(static encounter =>
                 encounter is not DeprecatedEncounter
-                && !encounter.IsDebugEncounter
+                && !encounter.IsMock
                 && encounter.ShouldGiveRewards
                 && !encounter.GetType().Name.Contains("EventEncounter", StringComparison.Ordinal)
                 && encounter.RoomType.IsCombatRoom())

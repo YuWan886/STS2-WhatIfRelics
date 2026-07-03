@@ -1,4 +1,5 @@
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -23,7 +24,8 @@ public sealed class WhatIfBlasphemyPower : WhatIfPowerTemplate
         decimal amount,
         ValueProp props,
         Creature? dealer,
-        CardModel? cardSource)
+        CardModel? cardSource,
+        CardPlay? cardPlay = null)
     {
         if (Amount <= 0 ||
             !props.IsPoweredAttack() ||

@@ -26,7 +26,7 @@ public sealed class WhatIfHeatPower : WhatIfPowerTemplate
             Owner,
             Amount,
             ValueProp.Unpowered,
-            dealer: null,
-            cardSource: null);
+            cardSource: null,
+            cardPlay: null);
     }
 }

@@ -40,7 +40,8 @@ public sealed class WhatIfJumpSlashCriticalPower : WhatIfPowerTemplate
         decimal amount,
         ValueProp props,
         Creature? dealer,
-        CardModel? cardSource)
+        CardModel? cardSource,
+        CardPlay? cardPlay = null)
     {
         if (Amount <= 0 ||
             !props.IsPoweredAttack() ||
