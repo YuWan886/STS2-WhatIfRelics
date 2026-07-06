@@ -11,16 +11,16 @@ namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 [WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfDeckTransforms")]
 public sealed class WhatIfDeckTransforms : WhatIfRelicModel
 {
-    private int _lastTransformedRoomCount = -1;
+    private string _lastTransformedRoomKey = string.Empty;
 
     [SavedProperty]
-    public int LastTransformedRoomCount
+    public string LastTransformedRoomKey
     {
-        get => _lastTransformedRoomCount;
+        get => _lastTransformedRoomKey;
         private set
         {
             AssertMutable();
-            _lastTransformedRoomCount = Math.Max(-1, value);
+            _lastTransformedRoomKey = value ?? string.Empty;
         }
     }
 
@@ -40,8 +40,8 @@ public sealed class WhatIfDeckTransforms : WhatIfRelicModel
             return;
         }
 
-        int currentRoomCount = Owner.RunState.CurrentRoomCount;
-        if (currentRoomCount == LastTransformedRoomCount)
+        string roomKey = BuildRoomKey(Owner, room);
+        if (roomKey == LastTransformedRoomKey)
         {
             return;
         }
@@ -51,23 +51,24 @@ public sealed class WhatIfDeckTransforms : WhatIfRelicModel
             .ToList();
         if (originalCards.Count == 0)
         {
-            LastTransformedRoomCount = currentRoomCount;
+            LastTransformedRoomKey = roomKey;
             return;
         }
 
         List<CardModel> allPoolCandidates = GetGlobalTransformationCandidates(Owner);
         if (allPoolCandidates.Count == 0)
         {
-            LastTransformedRoomCount = currentRoomCount;
+            LastTransformedRoomKey = roomKey;
             return;
         }
 
-        IEnumerable<CardTransformation> transformations = originalCards
-            .Select(card => new CardTransformation(card, allPoolCandidates));
+        List<CardTransformation> transformations = originalCards
+            .Select(card => new CardTransformation(card, CreateReplacementCard(card, allPoolCandidates)))
+            .ToList();
 
         Flash();
-        await CardCmd.Transform(transformations, Owner.RunState.Rng.Niche, CardPreviewStyle.None);
-        LastTransformedRoomCount = currentRoomCount;
+        await CardCmd.Transform(transformations, null, CardPreviewStyle.None);
+        LastTransformedRoomKey = roomKey;
     }
 
     private static List<CardModel> GetGlobalTransformationCandidates(Player player)
@@ -76,5 +77,29 @@ public sealed class WhatIfDeckTransforms : WhatIfRelicModel
             .SelectMany(pool => pool.GetUnlockedCards(player.UnlockState, player.RunState.CardMultiplayerConstraint))
             .DistinctBy(static card => card.Id.Entry)
             .ToList();
+    }
+
+    private CardModel CreateReplacementCard(CardModel original, List<CardModel> candidates)
+    {
+        CardModel picked = candidates[Owner!.RunState.Rng.Niche.NextInt(candidates.Count)];
+        CardModel replacement = Owner.RunState.CreateCard(picked, Owner);
+
+        int upgradesToApply = Math.Min(original.CurrentUpgradeLevel, replacement.MaxUpgradeLevel);
+        for (int i = 0; i < upgradesToApply; i++)
+        {
+            replacement.UpgradeInternal();
+            replacement.FinalizeUpgradeInternal();
+        }
+
+        return replacement;
+    }
+
+    private static string BuildRoomKey(Player player, AbstractRoom room)
+    {
+        var location = player.RunState.MapLocation;
+        string roomEntry = room.ModelId?.Entry ?? room.RoomType.ToString();
+        int runtimeRoomId = room.Id ?? -1;
+        int roomDepth = player.RunState.CurrentRoomCount;
+        return $"{location.actIndex}|{location.coord?.col ?? -1}|{location.coord?.row ?? -1}|{roomDepth}|{runtimeRoomId}|{roomEntry}";
     }
 }
