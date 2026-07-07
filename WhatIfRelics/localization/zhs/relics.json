@@ -196,5 +196,8 @@
   "WHAT_IF_RELICS_RELIC_WHAT_IF_BLASPHEMY.flavor": "越过边界之后，代价会在下一刻追上来。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_DECK_TRANSFORMS.title": "假如牌组会变化",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_DECK_TRANSFORMS.description": "每次进入战斗房间时，将你的牌组中的所有卡牌变化一次。变化范围为全卡池。",
-  "WHAT_IF_RELICS_RELIC_WHAT_IF_DECK_TRANSFORMS.flavor": "等战斗真正开始时，原本的计划已经不是原本那套了。"
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_DECK_TRANSFORMS.flavor": "等战斗真正开始时，原本的计划已经不是原本那套了。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_MAX_HP_EQUALS_GOLD.title": "假如最大生命值等于金币数",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_MAX_HP_EQUALS_GOLD.description": "你的最大生命值始终等于当前金币数。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_MAX_HP_EQUALS_GOLD.flavor": "钱包就是你的血条。"
 }
