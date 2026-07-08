@@ -197,6 +197,9 @@
   "WHAT_IF_RELICS_RELIC_WHAT_IF_DECK_TRANSFORMS.title": "假如牌组会变化",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_DECK_TRANSFORMS.description": "每次进入战斗房间时，将你的牌组中的所有卡牌变化一次。变化范围为全卡池。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_DECK_TRANSFORMS.flavor": "等战斗真正开始时，原本的计划已经不是原本那套了。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_DOUBLE_ENEMIES.title": "假如所有敌人数量翻倍",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_DOUBLE_ENEMIES.description": "每场战斗开始时，将每个敌人复制一份。复制出的敌人会位于原敌人的正上方。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_DOUBLE_ENEMIES.flavor": "每场遭遇都会再响起一遍回声。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_MAX_HP_EQUALS_GOLD.title": "假如最大生命值等于金币数",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_MAX_HP_EQUALS_GOLD.description": "你的最大生命值始终等于当前金币数。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_MAX_HP_EQUALS_GOLD.flavor": "钱包就是你的血条。"
