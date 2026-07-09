@@ -8,8 +8,16 @@ namespace WhatIfRelics.WhatIfRelicsCode.Relics;
 [WhatIfRegisterRelic(typeof(WhatIfRelicPool), StableEntryStem = "WhatIfInfinitePotions")]
 public class WhatIfInfinitePotions : WhatIfRelicModel
 {
+    private bool _isRefillingPotionSlots;
+
     public WhatIfInfinitePotions() : base(true)
     {
+    }
+
+    public override async Task AfterObtained()
+    {
+        await base.AfterObtained();
+        await FillEmptyPotionSlots(inCombat: Owner?.Creature.CombatState != null);
     }
 
     public override async Task AfterPotionProcured(PotionModel potion)
@@ -34,15 +42,23 @@ public class WhatIfInfinitePotions : WhatIfRelicModel
 
     private async Task FillEmptyPotionSlots(bool inCombat)
     {
-        if (Owner == null || !Owner.HasOpenPotionSlots)
+        if (Owner == null || !Owner.HasOpenPotionSlots || _isRefillingPotionSlots)
         {
             return;
         }
 
-        foreach (PotionModel potion in WhatIfRandomPotionHelper.CreateRandomPotionsForOpenSlots(Owner, inCombat))
+        _isRefillingPotionSlots = true;
+        try
         {
-            Flash();
-            await PotionCmd.TryToProcure(potion.ToMutable(), Owner);
+            foreach (PotionModel potion in WhatIfRandomPotionHelper.CreateRandomPotionsForOpenSlots(Owner, inCombat))
+            {
+                Flash();
+                await PotionCmd.TryToProcure(potion.ToMutable(), Owner);
+            }
+        }
+        finally
+        {
+            _isRefillingPotionSlots = false;
         }
     }
 }

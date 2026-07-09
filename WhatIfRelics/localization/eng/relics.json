@@ -198,7 +198,7 @@
   "WHAT_IF_RELICS_RELIC_WHAT_IF_DECK_TRANSFORMS.description": "Whenever you enter a combat room, transform every card in your deck once. Transformation candidates come from all card pools.",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_DECK_TRANSFORMS.flavor": "By the time the fight starts, the plan is already someone else's.",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_DOUBLE_ENEMIES.title": "What If Enemy Count Doubled",
-  "WHAT_IF_RELICS_RELIC_WHAT_IF_DOUBLE_ENEMIES.description": "At the start of each combat, copy every enemy once. The copied enemies are placed directly above the originals.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_DOUBLE_ENEMIES.description": "At the start of each combat, copy every enemy once.",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_DOUBLE_ENEMIES.flavor": "Every encounter answers with an echo.",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_MAX_HP_EQUALS_GOLD.title": "What If Max HP Equals Gold",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_MAX_HP_EQUALS_GOLD.description": "Your max HP is always equal to your current gold.",
