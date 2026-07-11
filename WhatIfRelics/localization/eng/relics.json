@@ -149,6 +149,12 @@
   "WHAT_IF_RELICS_RELIC_WHAT_IF_CHEAT_DRAW.title": "What If I Cheated",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_CHEAT_DRAW.description": "At the start of each turn, instead of drawing in order, choose that many cards from your draw pile and put them into your hand.",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_CHEAT_DRAW.flavor": "The deck obeys whoever knows the marks.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_ENERGY_OVERDRAFT.title": "What If Energy Could Be Overdrawn",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_ENERGY_OVERDRAFT.description": "Play cards on credit. Each turn's energy repays your debt first; any debt left when combat ends is paid in HP.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_ENERGY_OVERDRAFT.flavor": "Today's energy, tomorrow's bill.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_FULL_HAND.title": "What If My Hand Were Always Full",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_FULL_HAND.description": "At the start of each turn, fill your hand to its limit. Whenever you play a card, draw 1 card.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_FULL_HAND.flavor": "The question is never whether you have options.",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP.title": "What If I Could Jump",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP.description": "Hold [gold]Space[/gold] to jump. If you jump [blue]30[/blue] times within [blue]3 seconds[/blue], you immediately skip the combat room.",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP.flavor": "The ground is only a suggestion.",
@@ -202,5 +208,8 @@
   "WHAT_IF_RELICS_RELIC_WHAT_IF_DOUBLE_ENEMIES.flavor": "Every encounter answers with an echo.",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_MAX_HP_EQUALS_GOLD.title": "What If Max HP Equals Gold",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_MAX_HP_EQUALS_GOLD.description": "Your max HP is always equal to your current gold.",
-  "WHAT_IF_RELICS_RELIC_WHAT_IF_MAX_HP_EQUALS_GOLD.flavor": "Your wallet is your health bar."
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_MAX_HP_EQUALS_GOLD.flavor": "Your wallet is your health bar.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_LIFE_LINK.title": "Life Link",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_LIFE_LINK.description": "When obtained, every other teammate's current and maximum HP become yours. Afterwards, whenever your current HP changes, they lose or recover the same amount of HP.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_LIFE_LINK.flavor": "Their pulse follows only your heartbeat."
 }

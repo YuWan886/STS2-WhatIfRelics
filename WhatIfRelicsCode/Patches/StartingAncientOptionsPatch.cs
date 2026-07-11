@@ -144,15 +144,25 @@ public static class StartingAncientOptionsPatch
     {
         var pool = ModelDb.RelicPool<WhatIfRelicPool>();
         var runState = ancient.Owner?.RunState;
-        var isMultiplayer = runState?.Players.Count > 1;
-
         IEnumerable<RelicModel> candidates = pool.AllRelics
             .GroupBy(static relic => relic.Id.Entry, StringComparer.Ordinal)
             .Select(static group => group.First());
 
-        if (isMultiplayer)
+        if (runState?.Players.Count > 1)
         {
-            candidates = candidates.Where(static relic => relic is not WhatIfAllRelics and not WhatIfGoSecond);
+            var lifeLinkOwner = runState.Players
+                .OrderBy(static player => player.NetId)
+                .First();
+            bool hasLifeLink = runState.Players.Any(player => player.GetRelic<WhatIfLifeLink>() != null);
+
+            candidates = candidates.Where(relic =>
+                relic is not WhatIfAllRelics
+                && relic is not WhatIfGoSecond
+                && (relic is not WhatIfLifeLink || (!hasLifeLink && ancient.Owner == lifeLinkOwner)));
+        }
+        else
+        {
+            candidates = candidates.Where(static relic => relic is not WhatIfLifeLink);
         }
 
         return candidates.ToList();

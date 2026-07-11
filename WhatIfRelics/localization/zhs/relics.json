@@ -149,6 +149,12 @@
   "WHAT_IF_RELICS_RELIC_WHAT_IF_CHEAT_DRAW.title": "假如我出老千",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_CHEAT_DRAW.description": "在每回合开始时，你不再按顺序抽牌，而是改为从抽牌堆中自行选择对应数量的卡加入手牌。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_CHEAT_DRAW.flavor": "牌堆永远偏向懂得做记号的人。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_ENERGY_OVERDRAFT.title": "假如能量可以透支",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_ENERGY_OVERDRAFT.description": "使用牌时可以欠下能量。每回合开始时，能量会优先偿还欠款；若带着欠款结束战斗，则失去等量生命。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_ENERGY_OVERDRAFT.flavor": "今天的能量，明天的账单。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_FULL_HAND.title": "假如手牌永远补满",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_FULL_HAND.description": "每回合开始时，将手牌补至上限；每打出一张牌后，补抽一张。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_FULL_HAND.flavor": "选择从来不是问题，问题是要选哪一张。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP.title": "假如可以跳跃",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP.description": "按下[gold]空格[/gold]可以跳跃。若你在[blue]3秒[/blue]内跳跃[blue]30[/blue]次，则会直接跳过战斗房间。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_JUMP.flavor": "地面只是暂时的停留点。",
@@ -202,5 +208,8 @@
   "WHAT_IF_RELICS_RELIC_WHAT_IF_DOUBLE_ENEMIES.flavor": "每场遭遇都会再响起一遍回声。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_MAX_HP_EQUALS_GOLD.title": "假如最大生命值等于金币数",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_MAX_HP_EQUALS_GOLD.description": "你的最大生命值始终等于当前金币数。",
-  "WHAT_IF_RELICS_RELIC_WHAT_IF_MAX_HP_EQUALS_GOLD.flavor": "钱包就是你的血条。"
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_MAX_HP_EQUALS_GOLD.flavor": "钱包就是你的血条。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_LIFE_LINK.title": "生命链接",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_LIFE_LINK.description": "拾起时，其他所有队友的当前生命值与最大生命值变为你的数值。之后当你的当前生命值变化时，他们失去或恢复等量生命。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_LIFE_LINK.flavor": "他们的脉搏，只跟着你的心跳。"
 }
