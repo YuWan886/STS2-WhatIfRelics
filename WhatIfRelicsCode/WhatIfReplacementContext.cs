@@ -11,6 +11,11 @@ internal static class WhatIfReplacementContext
         return WhatIfRelicsConfigSync.EffectiveEnableWhatIfRelics();
     }
 
+    public static int GetWhatIfRelicChoiceCount()
+    {
+        return WhatIfRelicsConfigSync.EffectiveStartingWhatIfRelicChoiceCount();
+    }
+
     public static bool ShouldReplaceStartingDeck()
     {
         return WhatIfRelicsConfigSync.EffectiveReplaceStartingDeck();

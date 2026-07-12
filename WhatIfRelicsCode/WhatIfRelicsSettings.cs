@@ -2,9 +2,14 @@ namespace WhatIfRelics.WhatIfRelicsCode;
 
 public sealed class WhatIfRelicsSettings
 {
+    public const int DefaultStartingWhatIfRelicChoiceCount = 3;
+    public const int MinStartingWhatIfRelicChoiceCount = 0;
+    public const int MaxStartingWhatIfRelicChoiceCount = 10;
     public const int DefaultScorchingSpireFloorInterval = 10;
 
     public bool EnableWhatIfRelics { get; set; } = false;
+
+    public int StartingWhatIfRelicChoiceCount { get; set; } = DefaultStartingWhatIfRelicChoiceCount;
 
     public bool ReplaceStartingDeck { get; set; } = true;
 
@@ -28,6 +33,7 @@ public sealed class WhatIfRelicsSettings
     {
         WhatIfRelicsSettings defaults = new();
         EnableWhatIfRelics = defaults.EnableWhatIfRelics;
+        StartingWhatIfRelicChoiceCount = defaults.StartingWhatIfRelicChoiceCount;
         ReplaceStartingDeck = defaults.ReplaceStartingDeck;
         ReplaceCardRewards = defaults.ReplaceCardRewards;
         ReplaceRelicRewards = defaults.ReplaceRelicRewards;

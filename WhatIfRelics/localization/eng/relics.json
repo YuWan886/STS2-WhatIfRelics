@@ -5,6 +5,10 @@
   "WHAT_IF_RELICS_WHAT_IF_CHEAT_DRAW_SELECT_PROMPT": "Choose {Amount} cards to draw",
   "WHAT_IF_RELICS_WHAT_IF_SKIP.title": "Skip",
   "WHAT_IF_RELICS_WHAT_IF_SKIP.description": "Skip the selection.",
+  "WHAT_IF_RELICS_WHAT_IF_PREVIOUS_PAGE.title": "Previous Page",
+  "WHAT_IF_RELICS_WHAT_IF_PREVIOUS_PAGE.description": "Show the previous What If relic choices.",
+  "WHAT_IF_RELICS_WHAT_IF_NEXT_PAGE.title": "Next Page",
+  "WHAT_IF_RELICS_WHAT_IF_NEXT_PAGE.description": "Show more What If relic choices.",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_JACKPOT.title": "What If Only Jackpot",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_JACKPOT.description": "All replaced cards become [gold]Jackpot[/gold].",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_JACKPOT.flavor": "Quality Deck #002.",
@@ -211,5 +215,14 @@
   "WHAT_IF_RELICS_RELIC_WHAT_IF_MAX_HP_EQUALS_GOLD.flavor": "Your wallet is your health bar.",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_LIFE_LINK.title": "Life Link",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_LIFE_LINK.description": "When obtained, every other teammate's current and maximum HP become yours. Afterwards, whenever your current HP changes, they lose or recover the same amount of HP.",
-  "WHAT_IF_RELICS_RELIC_WHAT_IF_LIFE_LINK.flavor": "Their pulse follows only your heartbeat."
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_LIFE_LINK.flavor": "Their pulse follows only your heartbeat.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_CARDS_DO_NOT_EXHAUST.title": "What If Cards Did Not Exhaust",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_CARDS_DO_NOT_EXHAUST.description": "Cards with Exhaust go to the discard pile after being played.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_CARDS_DO_NOT_EXHAUST.flavor": "This time, goodbye is not forever.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_FREE_SHOPPING.title": "Free Shopping",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_FREE_SHOPPING.description": "All cards, relics, potions, and card removals in shops cost 0.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_FREE_SHOPPING.flavor": "Price tags are only decoration.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_SHARED_ENERGY.title": "What If Energy Were Shared",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_SHARED_ENERGY.description": "All players contribute to one shared energy pool, which cards spend from directly.",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_SHARED_ENERGY.flavor": "Whose turn it is does not matter. The energy belongs to the team."
 }

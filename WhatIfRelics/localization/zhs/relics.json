@@ -5,6 +5,10 @@
   "WHAT_IF_RELICS_WHAT_IF_CHEAT_DRAW_SELECT_PROMPT": "选择{Amount}张要抽到手中的卡牌",
   "WHAT_IF_RELICS_WHAT_IF_SKIP.title": "跳过",
   "WHAT_IF_RELICS_WHAT_IF_SKIP.description": "跳过选择。",
+  "WHAT_IF_RELICS_WHAT_IF_PREVIOUS_PAGE.title": "上一页",
+  "WHAT_IF_RELICS_WHAT_IF_PREVIOUS_PAGE.description": "查看上一页假如遗物选项。",
+  "WHAT_IF_RELICS_WHAT_IF_NEXT_PAGE.title": "下一页",
+  "WHAT_IF_RELICS_WHAT_IF_NEXT_PAGE.description": "查看更多假如遗物选项。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_JACKPOT.title": "假如只有大奖",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_JACKPOT.description": "所有被替换的卡牌都会变为[gold]大奖[/gold]。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_JACKPOT.flavor": "优质卡组#002。",
@@ -211,5 +215,14 @@
   "WHAT_IF_RELICS_RELIC_WHAT_IF_MAX_HP_EQUALS_GOLD.flavor": "钱包就是你的血条。",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_LIFE_LINK.title": "生命链接",
   "WHAT_IF_RELICS_RELIC_WHAT_IF_LIFE_LINK.description": "拾起时，其他所有队友的当前生命值与最大生命值变为你的数值。之后当你的当前生命值变化时，他们失去或恢复等量生命。",
-  "WHAT_IF_RELICS_RELIC_WHAT_IF_LIFE_LINK.flavor": "他们的脉搏，只跟着你的心跳。"
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_LIFE_LINK.flavor": "他们的脉搏，只跟着你的心跳。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_CARDS_DO_NOT_EXHAUST.title": "假如卡牌不会消耗",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_CARDS_DO_NOT_EXHAUST.description": "所有带有消耗的卡牌打出后会进入弃牌堆。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_CARDS_DO_NOT_EXHAUST.flavor": "这一次，告别不是永别。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_FREE_SHOPPING.title": "零元购",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_FREE_SHOPPING.description": "商店中的卡牌、遗物、药水和删牌服务价格均为0。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_FREE_SHOPPING.flavor": "价格标签只是装饰。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_SHARED_ENERGY.title": "假如能量是共享的",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_SHARED_ENERGY.description": "所有玩家的能量汇入同一个公共能量池，使用牌时从中消耗。",
+  "WHAT_IF_RELICS_RELIC_WHAT_IF_SHARED_ENERGY.flavor": "轮到谁并不重要，能量属于全队。"
 }

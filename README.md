@@ -16,6 +16,11 @@
 
 - [YuWanCard](https://github.com/YuWan886/Sts2-YuWanCard)
 
+## 开发
+
+- [假如遗物列表](docs/what-if-relics.md)由中文 `relics.json` 自动生成。
+- 本地更新：`python ./scripts/generate_what_if_relic_list.py`
+
 ## 安装
 
 - [**创意工坊**](https://steamcommunity.com/sharedfiles/filedetails/?id=3749676176)
