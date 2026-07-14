@@ -48,10 +48,10 @@ internal static class WhatIfEnergyOverdraftCardPatch
     [HarmonyPrefix]
     private static bool SpendEnergy_Prefix(CardModel __instance, int amount, ref Task __result)
     {
-        if (amount <= 0
-            || __instance.Owner.GetRelic<WhatIfEnergyOverdraft>() == null
+        if (__instance.Owner.GetRelic<WhatIfEnergyOverdraft>() == null
             || __instance.Owner.PlayerCombatState is not { } playerCombatState
-            || __instance.CombatState is not { } combatState)
+            || __instance.CombatState is not { } combatState
+            || (amount <= 0 && !__instance.EnergyCost.CostsX))
         {
             return true;
         }
@@ -66,18 +66,18 @@ internal static class WhatIfEnergyOverdraftCardPatch
         PlayerCombatState playerCombatState,
         int amount)
     {
+        int energyToSpend = Math.Max(0, amount);
         if (card.EnergyCost.CostsX)
         {
-            card.EnergyCost.CapturedXValue = amount;
+            card.EnergyCost.CapturedXValue = energyToSpend;
         }
 
-        int energyToSpend = Math.Max(0, amount);
         if (energyToSpend > 0)
         {
             CombatManager.Instance.History.EnergySpent(combatState, energyToSpend, card.Owner);
             playerCombatState.Energy -= energyToSpend;
         }
 
-        await Hook.AfterEnergySpent(combatState, card, amount);
+        await Hook.AfterEnergySpent(combatState, card, energyToSpend);
     }
 }
