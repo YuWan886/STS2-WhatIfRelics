@@ -7,6 +7,7 @@ namespace WhatIfRelics.WhatIfRelicsCode.Networking;
 internal struct WhatIfRelicsConfigMessage : INetMessage, IPacketSerializable
 {
     public required bool EnableWhatIfRelics;
+    public required int StartingWhatIfRelicChoiceCount;
     public required bool ReplaceStartingDeck;
     public required bool ReplaceCardRewards;
     public required bool ReplaceRelicRewards;
@@ -30,6 +31,10 @@ internal struct WhatIfRelicsConfigMessage : INetMessage, IPacketSerializable
         return new WhatIfRelicsConfigMessage
         {
             EnableWhatIfRelics = settings.EnableWhatIfRelics,
+            StartingWhatIfRelicChoiceCount = Math.Clamp(
+                settings.StartingWhatIfRelicChoiceCount,
+                WhatIfRelicsSettings.MinStartingWhatIfRelicChoiceCount,
+                WhatIfRelicsSettings.MaxStartingWhatIfRelicChoiceCount),
             ReplaceStartingDeck = settings.ReplaceStartingDeck,
             ReplaceCardRewards = settings.ReplaceCardRewards,
             ReplaceRelicRewards = settings.ReplaceRelicRewards,
@@ -45,6 +50,7 @@ internal struct WhatIfRelicsConfigMessage : INetMessage, IPacketSerializable
     public void Serialize(PacketWriter writer)
     {
         writer.WriteBool(EnableWhatIfRelics);
+        writer.WriteInt(StartingWhatIfRelicChoiceCount);
         writer.WriteBool(ReplaceStartingDeck);
         writer.WriteBool(ReplaceCardRewards);
         writer.WriteBool(ReplaceRelicRewards);
@@ -59,6 +65,10 @@ internal struct WhatIfRelicsConfigMessage : INetMessage, IPacketSerializable
     public void Deserialize(PacketReader reader)
     {
         EnableWhatIfRelics = reader.ReadBool();
+        StartingWhatIfRelicChoiceCount = Math.Clamp(
+            reader.ReadInt(),
+            WhatIfRelicsSettings.MinStartingWhatIfRelicChoiceCount,
+            WhatIfRelicsSettings.MaxStartingWhatIfRelicChoiceCount);
         ReplaceStartingDeck = reader.ReadBool();
         ReplaceCardRewards = reader.ReadBool();
         ReplaceRelicRewards = reader.ReadBool();

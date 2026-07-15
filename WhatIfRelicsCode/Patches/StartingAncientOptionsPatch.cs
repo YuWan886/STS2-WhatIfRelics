@@ -21,10 +21,16 @@ public static class StartingAncientOptionsPatch
 {
     private const string WhatIfEntryDescriptionKey = "WHAT_IF_RELICS_WHAT_IF_ENTRY.description";
     private const string WhatIfSkipKey = "WHAT_IF_RELICS_WHAT_IF_SKIP";
+    private const string WhatIfPreviousPageKey = "WHAT_IF_RELICS_WHAT_IF_PREVIOUS_PAGE";
+    private const string WhatIfNextPageKey = "WHAT_IF_RELICS_WHAT_IF_NEXT_PAGE";
+    private const int MaxRelicsPerPage = 5;
+    private const int RelicsWithOneNavigation = 4;
+    private const int RelicsWithTwoNavigations = 3;
 
     private static readonly Dictionary<AncientEventModel, List<EventOption>> OriginalOptions = [];
     private static readonly Dictionary<AncientEventModel, LocString> OriginalDescriptions = [];
     private static readonly Dictionary<AncientEventModel, int> RefreshCounts = [];
+    private static readonly Dictionary<AncientEventModel, int> PageIndices = [];
     private static readonly HashSet<AncientEventModel> SuppressInjection = [];
     private static readonly HashSet<AncientEventModel> InjectedAncients = [];
 
@@ -40,12 +46,7 @@ public static class StartingAncientOptionsPatch
     [HarmonyPostfix]
     private static void Postfix(EventModel __instance, LocString description, IEnumerable<EventOption> eventOptions)
     {
-        if (__instance is not AncientEventModel ancient)
-        {
-            return;
-        }
-
-        if (!ShouldInjectWhatIfOptions(ancient))
+        if (__instance is not AncientEventModel ancient || !ShouldInjectWhatIfOptions(ancient))
         {
             return;
         }
@@ -59,6 +60,7 @@ public static class StartingAncientOptionsPatch
         OriginalOptions[ancient] = originalOptions;
         OriginalDescriptions[ancient] = description;
         RefreshCounts[ancient] = 0;
+        PageIndices[ancient] = 0;
         InjectedAncients.Add(ancient);
         Entry.Logger.Info($"[StartingAncientOptionsPatch] Injecting WhatIf start options for {ancient.Id.Entry}");
         ShowWhatIfOptions(ancient);
@@ -66,22 +68,12 @@ public static class StartingAncientOptionsPatch
 
     private static bool ShouldInjectWhatIfOptions(AncientEventModel ancient)
     {
-        if (SuppressInjection.Contains(ancient) || OriginalOptions.ContainsKey(ancient))
-        {
-            return false;
-        }
-
-        if (InjectedAncients.Contains(ancient))
-        {
-            return false;
-        }
-
-        if (!WhatIfReplacementContext.IsWhatIfSelectionEnabled())
-        {
-            return false;
-        }
-
-        if (ancient.Owner?.RunState == null)
+        if (SuppressInjection.Contains(ancient)
+            || OriginalOptions.ContainsKey(ancient)
+            || InjectedAncients.Contains(ancient)
+            || !WhatIfReplacementContext.IsWhatIfSelectionEnabled()
+            || WhatIfReplacementContext.GetWhatIfRelicChoiceCount() == 0
+            || ancient.Owner?.RunState == null)
         {
             return false;
         }
@@ -93,12 +85,26 @@ public static class StartingAncientOptionsPatch
     private static IReadOnlyList<EventOption> CreateWhatIfOptions(AncientEventModel ancient)
     {
         var selectedRelics = SelectDeterministicWhatIfRelics(ancient);
-        var options = new List<EventOption>(selectedRelics.Count + 1);
+        int firstPageRelics = selectedRelics.Count <= MaxRelicsPerPage
+            ? MaxRelicsPerPage
+            : RelicsWithOneNavigation;
+        int pageIndex = PageIndices.GetValueOrDefault(ancient);
+        int firstRelicIndex = GetFirstRelicIndex(pageIndex, firstPageRelics);
+        if (firstRelicIndex >= selectedRelics.Count)
+        {
+            pageIndex = 0;
+            firstRelicIndex = 0;
+            PageIndices[ancient] = 0;
+        }
 
-        foreach (var relic in selectedRelics)
+        int relicsOnPage = pageIndex == 0 ? firstPageRelics : RelicsWithTwoNavigations;
+        bool hasPreviousPage = pageIndex > 0;
+        bool hasNextPage = firstRelicIndex + relicsOnPage < selectedRelics.Count;
+        var options = new List<EventOption>(MaxRelicsPerPage + 3);
+
+        foreach (var relic in selectedRelics.Skip(firstRelicIndex).Take(relicsOnPage))
         {
             var mutable = relic.ToMutable();
-            var description = BuildRelicOptionDescription(mutable);
             options.Add(new EventOption(
                 ancient,
                 async () =>
@@ -107,9 +113,19 @@ public static class StartingAncientOptionsPatch
                     RestoreNormalOptions(ancient);
                 },
                 mutable.Title,
-                description,
+                BuildRelicOptionDescription(mutable),
                 mutable.Id.Entry + ".NEOW",
                 mutable.HoverTipsExcludingRelic).WithRelic(mutable));
+        }
+
+        if (hasPreviousPage)
+        {
+            options.Add(CreatePageNavigationOption(ancient, WhatIfPreviousPageKey, pageIndex - 1));
+        }
+
+        if (hasNextPage)
+        {
+            options.Add(CreatePageNavigationOption(ancient, WhatIfNextPageKey, pageIndex + 1));
         }
 
         options.Add(new EventOption(
@@ -127,6 +143,29 @@ public static class StartingAncientOptionsPatch
         return options;
     }
 
+    private static int GetFirstRelicIndex(int pageIndex, int firstPageRelics)
+    {
+        return pageIndex == 0
+            ? 0
+            : firstPageRelics + (pageIndex - 1) * RelicsWithTwoNavigations;
+    }
+
+    private static EventOption CreatePageNavigationOption(AncientEventModel ancient, string key, int destinationPage)
+    {
+        return new EventOption(
+            ancient,
+            () =>
+            {
+                PageIndices[ancient] = destinationPage;
+                ShowWhatIfOptions(ancient);
+                return Task.CompletedTask;
+            },
+            new LocString("relics", $"{key}.title"),
+            new LocString("relics", $"{key}.description"),
+            key,
+            Array.Empty<IHoverTip>());
+    }
+
     private static IReadOnlyList<RelicModel> SelectDeterministicWhatIfRelics(AncientEventModel ancient)
     {
         var candidates = GetWhatIfCandidates(ancient);
@@ -136,7 +175,7 @@ public static class StartingAncientOptionsPatch
         return candidates
             .OrderBy(relic => ComputeDeterministicSelectionKey(seed, relic.Id.Entry, refreshCount))
             .ThenBy(static relic => relic.Id.Entry, StringComparer.Ordinal)
-            .Take(3)
+            .Take(WhatIfReplacementContext.GetWhatIfRelicChoiceCount())
             .ToList();
     }
 
@@ -144,15 +183,29 @@ public static class StartingAncientOptionsPatch
     {
         var pool = ModelDb.RelicPool<WhatIfRelicPool>();
         var runState = ancient.Owner?.RunState;
-        var isMultiplayer = runState?.Players.Count > 1;
-
         IEnumerable<RelicModel> candidates = pool.AllRelics
             .GroupBy(static relic => relic.Id.Entry, StringComparer.Ordinal)
             .Select(static group => group.First());
 
-        if (isMultiplayer)
+        if (runState?.Players.Count > 1)
         {
-            candidates = candidates.Where(static relic => relic is not WhatIfAllRelics and not WhatIfGoSecond);
+            var orderedPlayers = runState.Players.OrderBy(static player => player.NetId).ToList();
+            var lifeLinkOwner = orderedPlayers[0];
+            var sharedEnergyOwner = orderedPlayers[(int)(
+                ComputeDeterministicSelectionKey(runState.Rng.StringSeed, "WHAT_IF_SHARED_ENERGY_OWNER", 0)
+                % (ulong)orderedPlayers.Count)];
+            bool hasLifeLink = runState.Players.Any(player => player.GetRelic<WhatIfLifeLink>() != null);
+            bool hasSharedEnergy = runState.Players.Any(player => player.GetRelic<WhatIfSharedEnergy>() != null);
+
+            candidates = candidates.Where(relic =>
+                relic is not WhatIfAllRelics
+                && relic is not WhatIfGoSecond
+                && (relic is not WhatIfLifeLink || (!hasLifeLink && ancient.Owner == lifeLinkOwner))
+                && (relic is not WhatIfSharedEnergy || (!hasSharedEnergy && ancient.Owner == sharedEnergyOwner)));
+        }
+        else
+        {
+            candidates = candidates.Where(static relic => relic is not WhatIfLifeLink and not WhatIfSharedEnergy);
         }
 
         return candidates.ToList();
@@ -199,9 +252,10 @@ public static class StartingAncientOptionsPatch
         }
 
         var candidates = GetWhatIfCandidates(ancient);
-        if (candidates.Count <= 3)
+        int choiceCount = WhatIfReplacementContext.GetWhatIfRelicChoiceCount();
+        if (choiceCount == 0 || candidates.Count <= choiceCount)
         {
-            return new CmdResult(success: false, "There are fewer than 4 candidate What If relics, so a different set of 3 options cannot be generated.");
+            return new CmdResult(success: false, "There are not enough candidate What If relics to generate a different option set.");
         }
 
         var currentIds = GetDisplayedRelicIds(ancient);
@@ -217,6 +271,7 @@ public static class StartingAncientOptionsPatch
                 continue;
             }
 
+            PageIndices[ancient] = 0;
             ShowWhatIfOptions(ancient);
             return new CmdResult(success: true, $"Refreshed What If relic options. Refresh round: {RefreshCounts[ancient]}.");
         }
@@ -268,7 +323,8 @@ public static class StartingAncientOptionsPatch
             ? originalDescription
             : ancient.InitialDescription;
 
-        SetEventState(ancient, description, originalOptions);
+        bool restored = SetEventState(ancient, description, originalOptions);
+        Entry.Logger.Info($"[StartingAncientOptionsPatch] Restored original options: success={restored}, count={ancient.CurrentOptions.Count}");
         ClearStoredState(ancient);
     }
 
@@ -282,5 +338,6 @@ public static class StartingAncientOptionsPatch
         OriginalOptions.Remove(ancient);
         OriginalDescriptions.Remove(ancient);
         RefreshCounts.Remove(ancient);
+        PageIndices.Remove(ancient);
     }
 }

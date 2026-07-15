@@ -74,7 +74,7 @@ internal static class WhatIfRelicsConfigSync
         WhatIfRelicsSettings settings = WhatIfRelicsSettingsPage.Current;
         Entry.Logger.Info(
             "WhatIfRelics broadcasting host config. " +
-            $"enable={settings.EnableWhatIfRelics}, startingDeck={settings.ReplaceStartingDeck}, " +
+            $"enable={settings.EnableWhatIfRelics}, choiceCount={settings.StartingWhatIfRelicChoiceCount}, startingDeck={settings.ReplaceStartingDeck}, " +
             $"cardRewards={settings.ReplaceCardRewards}, relicRewards={settings.ReplaceRelicRewards}, " +
             $"potionRewards={settings.ReplacePotionRewards}, treasureRelics={settings.ReplaceTreasureRelics}, " +
             $"shopCards={settings.ReplaceShopCards}, shopRelics={settings.ReplaceShopRelics}, " +
@@ -85,6 +85,13 @@ internal static class WhatIfRelicsConfigSync
     public static bool EffectiveEnableWhatIfRelics() => EffectiveValue(
         static config => config.EnableWhatIfRelics,
         static settings => settings.EnableWhatIfRelics);
+
+    public static int EffectiveStartingWhatIfRelicChoiceCount() => EffectiveValue(
+        static config => config.StartingWhatIfRelicChoiceCount,
+        static settings => Math.Clamp(
+            settings.StartingWhatIfRelicChoiceCount,
+            WhatIfRelicsSettings.MinStartingWhatIfRelicChoiceCount,
+            WhatIfRelicsSettings.MaxStartingWhatIfRelicChoiceCount));
 
     public static bool EffectiveReplaceStartingDeck() => EffectiveValue(
         static config => config.ReplaceStartingDeck,
@@ -152,7 +159,7 @@ internal static class WhatIfRelicsConfigSync
         _hasHostConfig = true;
         Entry.Logger.Debug(
             $"WhatIfRelics received host config from {senderId}. " +
-            $"enable={message.EnableWhatIfRelics}, startingDeck={message.ReplaceStartingDeck}, " +
+            $"enable={message.EnableWhatIfRelics}, choiceCount={message.StartingWhatIfRelicChoiceCount}, startingDeck={message.ReplaceStartingDeck}, " +
             $"cardRewards={message.ReplaceCardRewards}, relicRewards={message.ReplaceRelicRewards}, " +
             $"potionRewards={message.ReplacePotionRewards}, treasureRelics={message.ReplaceTreasureRelics}, " +
             $"shopCards={message.ReplaceShopCards}, shopRelics={message.ReplaceShopRelics}, " +

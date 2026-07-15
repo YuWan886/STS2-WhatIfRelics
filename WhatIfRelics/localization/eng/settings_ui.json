@@ -3,6 +3,7 @@
   "whatifrelics.settings.page.title": "What If Relics Settings",
   "whatifrelics.settings.section.general.title": "General",
   "whatifrelics.settings.enable_at_start": "Enable start-of-run What If relic options",
+  "whatifrelics.settings.starting_what_if_relic_choice_count": "Start-of-run What If relic choices",
   "whatifrelics.settings.scorching_spire_floor_interval": "Scorching Spire: floors per Heat stack",
   "whatifrelics.settings.section.replacement.title": "Replacement Scope",
   "whatifrelics.settings.replace_starting_deck": "Replace starting deck",

@@ -19,6 +19,16 @@ public static class WhatIfRelicsSettingsPage
         static s => s.EnableWhatIfRelics,
         static (s, v) => s.EnableWhatIfRelics = v);
 
+    private static readonly ModSettingsValueBinding<WhatIfRelicsSettings, int> StartingWhatIfRelicChoiceCountBinding = new(
+        Entry.ModId,
+        DataKey,
+        SaveScope.Global,
+        static s => s.StartingWhatIfRelicChoiceCount,
+        static (s, v) => s.StartingWhatIfRelicChoiceCount = Math.Clamp(
+            v,
+            WhatIfRelicsSettings.MinStartingWhatIfRelicChoiceCount,
+            WhatIfRelicsSettings.MaxStartingWhatIfRelicChoiceCount));
+
     private static readonly ModSettingsValueBinding<WhatIfRelicsSettings, bool> ReplaceStartingDeckBinding = new(
         Entry.ModId,
         DataKey,
@@ -108,6 +118,14 @@ public static class WhatIfRelicsSettingsPage
                             "enable_what_if_relics",
                             WhatIfRelicsLocalization.EnableAtStartText(),
                             EnableWhatIfRelicsBinding)
+                        .AddIntSlider(
+                            "starting_what_if_relic_choice_count",
+                            WhatIfRelicsLocalization.StartingWhatIfRelicChoiceCountText(),
+                            StartingWhatIfRelicChoiceCountBinding,
+                            WhatIfRelicsSettings.MinStartingWhatIfRelicChoiceCount,
+                            WhatIfRelicsSettings.MaxStartingWhatIfRelicChoiceCount,
+                            1,
+                            static value => value.ToString())
                         .AddIntSlider(
                             "scorching_spire_floor_interval",
                             WhatIfRelicsLocalization.ScorchingSpireFloorIntervalText(),
