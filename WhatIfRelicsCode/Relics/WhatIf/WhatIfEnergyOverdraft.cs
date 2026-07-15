@@ -34,6 +34,7 @@ public class WhatIfEnergyOverdraft : WhatIfRelicModel
             debt,
             DamageProps.nonCardHpLoss,
             dealer: null,
-            cardSource: null);
+            cardSource: null,
+            cardPlay: null);
     }
 }
