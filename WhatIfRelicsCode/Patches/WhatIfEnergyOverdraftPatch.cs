@@ -40,6 +40,24 @@ internal static class WhatIfEnergyOverdraftPlayerCombatStatePatch
         __instance.Energy = __instance.MaxEnergy + Math.Min(0, __instance.Energy);
         return false;
     }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(nameof(PlayerCombatState.GainEnergy))]
+    private static bool GainEnergy_Prefix(PlayerCombatState __instance, Player ____player, decimal amount)
+    {
+        if (____player.GetRelic<WhatIfEnergyOverdraft>() == null
+            || __instance.Energy >= 0
+            || amount <= 0m)
+        {
+            return true;
+        }
+
+        __instance.Energy = (int)Math.Clamp(
+            (decimal)__instance.Energy + amount,
+            (decimal)int.MinValue,
+            999999999m);
+        return false;
+    }
 }
 
 [HarmonyPatch(typeof(CardModel), "SpendEnergy")]
