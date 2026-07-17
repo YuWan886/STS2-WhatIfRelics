@@ -11,8 +11,8 @@ namespace WhatIfRelics.WhatIfRelicsCode.Patches;
 internal static class WhatIfCardsDoNotExhaustPatch
 {
     [HarmonyPrefix]
-    [HarmonyPatch(typeof(CardModel), "GetResultPileTypeAndPositionForCardPlay")]
-    private static bool GetResultPileTypeAndPositionForCardPlay_Prefix(CardModel __instance, ref (PileType pileType, CardPilePosition position) __result)
+    [HarmonyPatch(typeof(CardModel), "GetResultLocationForCardPlay")]
+    private static bool GetResultLocationForCardPlay_Prefix(CardModel __instance, ref CardLocation __result)
     {
         if (!ShouldDiscardInstead(__instance))
         {
@@ -20,7 +20,7 @@ internal static class WhatIfCardsDoNotExhaustPatch
         }
 
         __instance.ExhaustOnNextPlay = false;
-        __result = (PileType.Discard, CardPilePosition.Bottom);
+        __result = new CardLocation(__instance.Owner, PileType.Discard, CardPilePosition.Bottom);
         return false;
     }
 
